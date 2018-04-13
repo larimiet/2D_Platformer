@@ -12,7 +12,7 @@ public class Character : MonoBehaviour
 
     public float speed = 30f;
     public bool performAction;
-    public string action = ("nothing");
+    public int action = 0;
     public bool setDestination = true;
     public Vector2 targetPos;
     public Vector2 startPos;
@@ -37,7 +37,7 @@ public class Character : MonoBehaviour
         
         if(performAction)
         {
-            if (action == ("walk_forward"))
+            if (action == 1)
             {
                 if (setDestination)
                 {
@@ -48,7 +48,7 @@ public class Character : MonoBehaviour
                 }
                 MoveOneStep(speed, transform.localScale.x);
             }
-            if (action == ("jump"))
+            if (action == 2)
             {
                 if (setDestination)
                 {
@@ -61,7 +61,7 @@ public class Character : MonoBehaviour
                 }
                 Jump(speed, transform.localScale.x);
             }
-            if (action == ("turn_around"))
+            if (action == 3)
             {
                 Turn180();
             }
@@ -77,7 +77,7 @@ public class Character : MonoBehaviour
         else
         {
             transform.position = targetPos;
-            action = ("nothing");
+            action = 0;
             performAction = false;
         }
     }
@@ -94,14 +94,14 @@ public class Character : MonoBehaviour
         {
             transform.position = targetPos;
             xMovementInJump = 0;
-            action = ("nothing");
+            action = 0;
             performAction = false;
         }
     }
     public void Turn180()
     {
         transform.localScale = new Vector2(transform.localScale.x * (-1), 1);
-        action = ("nothing");
+        action = 0;
         performAction = false;
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class OrderButton : MonoBehaviour
 {
     //Tällä koodilla voi antaa character luokalle käskyjä.
-    public string orderToSend;
+    public int orderToSend;
     public GameObject sendOrderTo;
     // Use this for initialization
     private void OnMouseOver()
