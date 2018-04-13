@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//Lisään testi kommentin.
 public class Character : MonoBehaviour
 {   //Tämä scripti voidaan asettaa hahmolle pelikentällä.
     public bool groundBelow;
