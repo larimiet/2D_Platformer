@@ -17,7 +17,10 @@ public class Character : MonoBehaviour
     public Vector2 targetPos;
     public Vector2 startPos;
     public Vector2 jumpHighPoint;
-    public float xMovementInJump;
+    public int jumpPhase;
+    public float compX = 2;
+    public float compY = 1;
+    //public float xMovementInJump;
 
     //actions: 0=nothing, 1=walk_forward, 2=jump, 3=turn around 
 
@@ -54,10 +57,12 @@ public class Character : MonoBehaviour
                 {
                     startPos = transform.position;
                     targetPos = new Vector2(transform.position.x
-                    + control.gridSize * 2 * transform.localScale.x, transform.position.y);
+                    + control.gridSize * compX * 2 * transform.localScale.x, transform.position.y);
                     jumpHighPoint = new Vector2(transform.position.x
-                    + control.gridSize * transform.localScale.x, transform.position.y);
+                    + control.gridSize * compX * transform.localScale.x, transform.position.y + 
+                    control.gridSize * compY);
                     setDestination = false;
+                    jumpPhase = 1;
                 }
                 Jump(speed, transform.localScale.x);
             }
@@ -84,20 +89,38 @@ public class Character : MonoBehaviour
 
     public void Jump(float spd, float direction)
     {
-        
-        if (transform.position.x < targetPos.x - speed / 20 || transform.position.x > targetPos.x + speed / 20)
+        if (jumpPhase == 1)
         {
-            xMovementInJump += speed * 2 * Time.deltaTime * direction;
-            transform.position = new Vector2(startPos.x + xMovementInJump, startPos.y + control.gridSize * 2);
+            if (transform.position.x < jumpHighPoint.x - speed / 20 || transform.position.x > jumpHighPoint.x + speed / 20 ||
+                transform.position.y < jumpHighPoint.y - speed / 20 || transform.position.y > jumpHighPoint.y + speed / 20)
+            {
+                transform.Translate(new Vector2(speed * Time.deltaTime * direction * compX,
+                speed * Time.deltaTime * direction * compY));
+            }
+            else
+            {
+                transform.position = jumpHighPoint;
+            }
         }
-        else
+
+        if (jumpPhase == 2)
         {
-            transform.position = targetPos;
-            xMovementInJump = 0;
-            action = 0;
-            performAction = false;
+            if (transform.position.x < targetPos.x - speed / 20 || transform.position.x > targetPos.x + speed / 20 ||
+                transform.position.y < targetPos.y - speed / 20 || transform.position.y > targetPos.y + speed / 20)
+            {
+                transform.Translate(new Vector2(speed * Time.deltaTime * direction * compX,
+                speed * Time.deltaTime * direction * -compY));
+            }
+            else
+            {
+                transform.position = targetPos;
+                action = 0;
+                performAction = false;
+            }
         }
     }
+    
+    
     public void Turn180()
     {
         transform.localScale = new Vector2(transform.localScale.x * (-1), 1);
