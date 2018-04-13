@@ -610,12 +610,12 @@ Prefab:
     - target: {fileID: 114235981804857728, guid: 310ad333a848ffe4ea447e50d8832b07,
         type: 2}
       propertyPath: compY
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 114235981804857728, guid: 310ad333a848ffe4ea447e50d8832b07,
         type: 2}
       propertyPath: compX
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 50373992043904674, guid: 310ad333a848ffe4ea447e50d8832b07, type: 2}

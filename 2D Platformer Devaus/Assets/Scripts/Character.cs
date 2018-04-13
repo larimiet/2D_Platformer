@@ -95,7 +95,7 @@ public class Character : MonoBehaviour
                 transform.position.y < jumpHighPoint.y - speed / 20 || transform.position.y > jumpHighPoint.y + speed / 20)
             {
                 transform.Translate(new Vector2(speed * Time.deltaTime * direction * compX,
-                speed * Time.deltaTime * direction * compY));
+                speed * Time.deltaTime * compY));
             }
             else
             {
@@ -109,7 +109,7 @@ public class Character : MonoBehaviour
                 transform.position.y < targetPos.y - speed / 20 || transform.position.y > targetPos.y + speed / 20)
             {
                 transform.Translate(new Vector2(speed * Time.deltaTime * direction * compX,
-                speed * Time.deltaTime * direction * -compY));
+                speed * Time.deltaTime * -compY));
             }
             else
             {
