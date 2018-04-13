@@ -7,6 +7,7 @@ public class Control : MonoBehaviour
     //Tänne kerätään pelissä tarvittavaa dataa, sekä asetetaan yleisiä arvoja
     public float gridSize = 0.5f;
     public string orderToPlayer;
+    
 	// Use this for initialization
 	void Start ()
     {

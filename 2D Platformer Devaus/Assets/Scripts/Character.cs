@@ -19,7 +19,7 @@ public class Character : MonoBehaviour
     public Vector2 jumpHighPoint;
     public float xMovementInJump;
 
-    //actions: nothing, walk_forward, 
+    //actions: 0=nothing, 1=walk_forward, 2=jump, 3=turn around 
 
     // Use this for initialization
     void Start ()
