@@ -5,7 +5,7 @@ using UnityEngine;
 public class Control : MonoBehaviour
 {
     //Tänne kerätään pelissä tarvittavaa dataa, sekä asetetaan yleisiä arvoja
-    public float gridSize = 0.5f;
+    public float gridSize = 1f;
     public string orderToPlayer;
     
 	// Use this for initialization

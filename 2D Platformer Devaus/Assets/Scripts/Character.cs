@@ -36,6 +36,7 @@ public class Character : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
+        print(control.gridSize);
         groundBelow = DetectCollisions.DetectCollisionAtPosition(new Vector3
         (transform.position.x, transform.position.y - control.gridSize /*- 0.05f*/, transform.position.z));
         
@@ -75,7 +76,7 @@ public class Character : MonoBehaviour
         if (action == 0 && groundBelow == false && !performFallDown)
         {
                 RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x,
-                transform.position.y - control.gridSize - 0.02f), -transform.up);
+                transform.position.y - control.gridSize - 1.5f), -transform.up);
             if (hit.collider != null)
             {
                 targetPos = (new Vector2(hit.collider.transform.position.x,
@@ -91,6 +92,7 @@ public class Character : MonoBehaviour
         if(performFallDown == true)
         {
             FallDown(speed * 3);
+            print(targetPos);
         }
         
     }
