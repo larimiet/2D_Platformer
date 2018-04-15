@@ -12,6 +12,7 @@ public class Character : MonoBehaviour
 
     public float speed = 30f;
     public bool performAction;
+    public bool performFallDown = false;
     public int action = 0;
     public bool setDestination = true;
     public Vector2 targetPos;
@@ -36,7 +37,7 @@ public class Character : MonoBehaviour
 	void Update ()
     {
         groundBelow = DetectCollisions.DetectCollisionAtPosition(new Vector3
-        (transform.position.x, transform.position.y - control.gridSize - 0.05f, transform.position.z));
+        (transform.position.x, transform.position.y - control.gridSize /*- 0.05f*/, transform.position.z));
         
         if(performAction)
         {
@@ -71,6 +72,27 @@ public class Character : MonoBehaviour
                 Turn180();
             }
         }
+        if (action == 0 && groundBelow == false && !performFallDown)
+        {
+                RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x,
+                transform.position.y - control.gridSize - 0.02f), -transform.up);
+            if (hit.collider != null)
+            {
+                targetPos = (new Vector2(hit.collider.transform.position.x,
+                hit.collider.transform.position.y + control.gridSize * 1.5f));
+            }
+            else
+            {
+                targetPos = new Vector2(0, -1000f);
+            }
+                performFallDown = true;
+        }
+        
+        if(performFallDown == true)
+        {
+            FallDown(speed * 3);
+        }
+        
     }
 
     public void MoveOneStep(float spd, float direction)
@@ -127,4 +149,28 @@ public class Character : MonoBehaviour
         action = 0;
         performAction = false;
     }
+
+    public void FallDown(float spd)
+    {
+        if (transform.position.y < targetPos.y - speed / 20 || transform.position.y > targetPos.y + speed / 20)
+        {
+            transform.Translate(new Vector2(0, -spd * Time.deltaTime));
+        }
+        else
+        {
+            transform.position = targetPos;
+            action = 0;
+            performFallDown = false;
+        }
+    }
+
+    /*public void OnCollisionStay2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == ("Platform") && groundBelow)
+        {
+            transform.position = new Vector2(collision.transform.position.x,
+            collision.transform.position.y + control.gridSize);
+            print("törmäys 2D");
+        }
+    }*/
 }
