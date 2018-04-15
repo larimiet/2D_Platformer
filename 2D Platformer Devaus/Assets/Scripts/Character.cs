@@ -21,9 +21,13 @@ public class Character : MonoBehaviour
     public int jumpPhase;
     public float compX = 2;
     public float compY = 1;
+
+    public float shootingRange = 8;
+    public GameObject ammoPrefab;
+    public int shooting = 0;
     //public float xMovementInJump;
 
-    //actions: 0=nothing, 1=walk_forward, 2=jump, 3=turn around 
+    //actions: 0=nothing, 1=walk_forward, 2=jump, 3=turn around , 4=shoot
 
     // Use this for initialization
     void Start ()
@@ -87,8 +91,20 @@ public class Character : MonoBehaviour
             }
                 performFallDown = true;
         }
-        
-        if(performFallDown == true)
+        if (action == 4)
+        {
+            if (setDestination && shooting == 0)
+            {
+                startPos = transform.position;
+                targetPos = new Vector2(transform.position.x
+                + control.gridSize * shootingRange * transform.localScale.x, transform.position.y);
+                setDestination = false;
+                shooting = 1;
+            }
+           Shoot(speed, transform.localScale.x);
+        }
+
+        if (performFallDown == true)
         {
             FallDown(speed * 3);
         }
@@ -150,6 +166,20 @@ public class Character : MonoBehaviour
         performAction = false;
     }
 
+    public void Shoot(float spd, float direction)
+    {
+        if (shooting == 1)
+        {
+            GameObject ammoCreation = Instantiate(ammoPrefab, new Vector2(transform.position.x,
+            transform.position.y + control.gridSize / 2), Quaternion.identity);
+            ammoCreation.GetComponent<Ammo>().direction = transform.localScale.x;
+            ammoCreation.GetComponent<Ammo>().startPos = transform.position;
+            ammoCreation.GetComponent<Ammo>().targetPos = new Vector2(transform.position.x + control.gridSize
+            * shootingRange * transform.localScale.x, transform.position.y);
+            shooting = 2;
+        }
+    }
+
     public void FallDown(float spd)
     {
         if (transform.position.y < targetPos.y - speed / 20 || transform.position.y > targetPos.y + speed / 20)
@@ -164,13 +194,14 @@ public class Character : MonoBehaviour
         }
     }
 
-    /*public void OnCollisionStay2D(Collision2D collision)
+    public void OnCollisionStay2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == ("Platform") && groundBelow)
+        if(collision.gameObject.tag == ("Ammo1") && action == 4)
         {
-            transform.position = new Vector2(collision.transform.position.x,
-            collision.transform.position.y + control.gridSize);
-            print("törmäys 2D");
+            shooting = 0;
+            action = 0;
+            performAction = false;
+            Destroy(collision.gameObject);
         }
-    }*/
+    }
 }
