@@ -51,3 +51,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 089c7fe49d70c664188c0ebeb69cdc43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gridSize: 1
+  orderToPlayer: 
