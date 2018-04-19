@@ -24,8 +24,8 @@ GameObject:
   - component: {fileID: 114969164951214338}
   - component: {fileID: 50969917660718878}
   m_Layer: 0
-  m_Name: Ammo1
-  m_TagString: Ammo1
+  m_Name: Ammo2
+  m_TagString: Ammo2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

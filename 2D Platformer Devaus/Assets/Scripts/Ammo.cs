@@ -27,10 +27,10 @@ public class Ammo : MonoBehaviour
         }
         else
         {
-            sRend.enabled = false;
-            rb2D.simulated = true;
+            /*sRend.enabled = false;
             targetReached = true;
-            transform.position = startPos;
+            transform.position = startPos;*/
+            Destroy(gameObject);
         }
     }
 }

@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 //Lisään testi kommentin.
-public class Character : MonoBehaviour
+public class CharacterAlpha : MonoBehaviour
 {   //Tämä scripti voidaan asettaa hahmolle pelikentällä.
     public bool groundBelow;
     public Camera cam;
     public GameObject controlObject;
+    public GameObject cameraFollow;
     public DetectControl DetectCollisions;
     public Control control;
 
-    public float speed = 30f;
+    public float speed = 2f;
     public bool performAction;
     public bool performFallDown = false;
     public int action = 0;
@@ -19,15 +20,22 @@ public class Character : MonoBehaviour
     public Vector2 startPos;
     public Vector2 jumpHighPoint;
     public int jumpPhase;
+    public bool crouched;
     public float compX = 2;
     public float compY = 1;
+    public int numberOfSteps;
 
     public float shootingRange = 8;
     public GameObject ammoPrefab;
     public int shooting = 0;
+
+    public int side = 1;
+    public int number = 0;
+    public bool selected;
+
     //public float xMovementInJump;
 
-    //actions: 0=nothing, 1=walk_forward, 2=jump, 3=turn around , 4=shoot
+    //actions: 0=nothing, 1=walk_forward, 2=jump, 3=turn around , 4=shoot, 5=crouch
 
     // Use this for initialization
     void Start ()
@@ -42,8 +50,92 @@ public class Character : MonoBehaviour
     {
         groundBelow = DetectCollisions.DetectCollisionAtPosition(new Vector3
         (transform.position.x, transform.position.y - control.gridSize /*- 0.05f*/, transform.position.z));
-        
-        if(performAction)
+
+        if (side == 1)
+        {
+            if(control.gamePhase != 1)
+            {
+                selected = false;
+            }
+            if (Input.GetKeyDown("1") && number == 1 && control.gamePhase == 1)
+            {
+                GameObject[] allside1Robots = GameObject.FindGameObjectsWithTag("Robo1");
+
+                foreach (GameObject ConnectorCube in allside1Robots)
+                {
+                    ConnectorCube.GetComponent<CharacterAlpha>().selected = false;
+                }
+
+                selected = true;
+                cameraFollow.transform.position = transform.position;
+            }
+            if (Input.GetKeyDown("2") && number == 2 && control.gamePhase == 1)
+            {
+                GameObject[] allside1Robots = GameObject.FindGameObjectsWithTag("Robo1");
+
+                foreach (GameObject ConnectorCube in allside1Robots)
+                {
+                    ConnectorCube.GetComponent<CharacterAlpha>().selected = false;
+                }
+                selected = true;
+                cameraFollow.transform.position = transform.position;
+            }
+            if (Input.GetKeyDown("3") && number == 3 && control.gamePhase == 1)
+            {
+                GameObject[] allside1Robots = GameObject.FindGameObjectsWithTag("Robo1");
+
+                foreach (GameObject ConnectorCube in allside1Robots)
+                {
+                    ConnectorCube.GetComponent<CharacterAlpha>().selected = false;
+                }
+                selected = true;
+                cameraFollow.transform.position = transform.position;
+            }
+        }
+
+        if (side == 2)
+        {
+            if (control.gamePhase != 2)
+            {
+                selected = false;
+            }
+            if (Input.GetKeyDown("1") && number == 1 && control.gamePhase == 2)
+            {
+                GameObject[] allside2Robots = GameObject.FindGameObjectsWithTag("Robo2");
+
+                foreach (GameObject ConnectorCube in allside2Robots)
+                {
+                    ConnectorCube.GetComponent<CharacterAlpha>().selected = false;
+                }
+
+                selected = true;
+                cameraFollow.transform.position = transform.position;
+            }
+            if (Input.GetKeyDown("2") && number == 2 && control.gamePhase == 2)
+            {
+                GameObject[] allside2Robots = GameObject.FindGameObjectsWithTag("Robo2");
+
+                foreach (GameObject ConnectorCube in allside2Robots)
+                {
+                    ConnectorCube.GetComponent<CharacterAlpha>().selected = false;
+                }
+                selected = true;
+                cameraFollow.transform.position = transform.position;
+            }
+            if (Input.GetKeyDown("3") && number == 3 && control.gamePhase == 2)
+            {
+                GameObject[] allside2Robots = GameObject.FindGameObjectsWithTag("Robo2");
+
+                foreach (GameObject ConnectorCube in allside2Robots)
+                {
+                    ConnectorCube.GetComponent<CharacterAlpha>().selected = false;
+                }
+                selected = true;
+                cameraFollow.transform.position = transform.position;
+            }
+        }
+
+        if (performAction)
         {
             if (action == 1)
             {
@@ -91,7 +183,15 @@ public class Character : MonoBehaviour
             }
                 performFallDown = true;
         }
-        if (action == 4)
+
+        if (action == 0 && groundBelow == true && !performFallDown && numberOfSteps > 0 && performAction)
+        {
+            action = 1;
+            setDestination = true;
+            performAction = true;
+        }
+
+            if (action == 4)
         {
             if (setDestination && shooting == 0)
             {
@@ -102,6 +202,10 @@ public class Character : MonoBehaviour
                 shooting = 1;
             }
            Shoot(speed, transform.localScale.x);
+        }
+        if (action == 5)
+        {
+            Crouch();
         }
 
         if (performFallDown == true)
@@ -120,7 +224,9 @@ public class Character : MonoBehaviour
         else
         {
             transform.position = targetPos;
+            numberOfSteps -= 1;
             action = 0;
+            if(numberOfSteps == 0)
             performAction = false;
         }
     }
@@ -166,6 +272,22 @@ public class Character : MonoBehaviour
         performAction = false;
     }
 
+    public void Crouch()
+    {
+        if(crouched && performAction && transform.localScale.y == 1)
+        {
+            transform.localScale = new Vector3(transform.localScale.x, 0.5f, 1);
+            transform.Translate(new Vector3(0, - 0.5f, 0));
+            performAction = false;
+        }
+        if (!crouched && performAction && transform.localScale.y == 0.5f)
+        {
+            transform.localScale = new Vector3(transform.localScale.x, 1, 1);
+            transform.Translate(new Vector3(0, 0.5f, 0));
+            performAction = false;
+        }
+    }
+
     public void Shoot(float spd, float direction)
     {
         if (shooting == 1)
@@ -176,7 +298,9 @@ public class Character : MonoBehaviour
             ammoCreation.GetComponent<Ammo>().startPos = transform.position;
             ammoCreation.GetComponent<Ammo>().targetPos = new Vector2(transform.position.x + control.gridSize
             * shootingRange * transform.localScale.x, transform.position.y);
-            shooting = 2;
+            shooting = 0;
+            action = 0;
+            performAction = false;
         }
     }
 
@@ -196,11 +320,14 @@ public class Character : MonoBehaviour
 
     public void OnCollisionStay2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == ("Ammo1") && action == 4)
+        if (collision.gameObject.tag == ("Ammo1") && side == 2)
         {
-            shooting = 0;
-            action = 0;
-            performAction = false;
+            Destroy(gameObject);
+            Destroy(collision.gameObject);
+        }
+        if (collision.gameObject.tag == ("Ammo2") && side == 1)
+        {
+            Destroy(gameObject);
             Destroy(collision.gameObject);
         }
     }

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ammo1
+  - Robo1
+  - Ammo2
+  - Robo2
   layers:
   - Default
   - TransparentFX
