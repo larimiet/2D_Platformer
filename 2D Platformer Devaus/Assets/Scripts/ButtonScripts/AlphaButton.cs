@@ -37,28 +37,13 @@ public class AlphaButton : MonoBehaviour
     }
 
     public void SpriteSelect()
-    {if(actionNumber == 1)
-        sRend.sprite = spritePool[masterObject.GetComponent<OrderControlAlpha>().order1];
-    if(actionNumber == 2)
-        sRend.sprite = spritePool[masterObject.GetComponent<OrderControlAlpha>().order2];
-    if(actionNumber == 3)
-        sRend.sprite = spritePool[masterObject.GetComponent<OrderControlAlpha>().order3];
+    {
+        sRend.sprite = spritePool[actionNumber];
     }
 
     private void OnMouseOver()
     {
-        if (actionNumber == 1)
-        {
-            masterObject.GetComponent<OrderControlAlpha>().order1 = order;
-        }
-        if (actionNumber == 2)
-        {
-            masterObject.GetComponent<OrderControlAlpha>().order2 = order;
-        }
-        if (actionNumber == 3)
-        {
-            masterObject.GetComponent<OrderControlAlpha>().order3 = order;
-        }
+        
         if (Input.GetMouseButtonDown(0) && selected)
         {
             if (order <= 8)
