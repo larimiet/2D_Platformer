@@ -50,14 +50,16 @@ public class PlayerScript : MonoBehaviour
         if (action == 3)
         {
             Flip();
+            state = MovePhase.EndTurn;
         }
         if (action == 4)
         {
-            jump(Vector2.up * 3);
+            jump(Vector2.up * 2 + Vector2.right * suunta);
         }
         if (action == 5)
         {
             crouch();
+        state = MovePhase.EndTurn;
         }
         if (action == 6)
         {
@@ -114,7 +116,7 @@ public class PlayerScript : MonoBehaviour
 
         if (state == MovePhase.executing || state == MovePhase.InAir)
         {
-            transform.position = Vector2.MoveTowards(transform.position, target, 0.01f);
+            transform.position = Vector2.MoveTowards(transform.position, target, 0.1f);
         }
         if (state == MovePhase.executing && (Vector2)transform.position == target && isGrounded)
         {

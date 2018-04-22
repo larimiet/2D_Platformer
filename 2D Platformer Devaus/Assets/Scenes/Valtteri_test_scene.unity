@@ -633,6 +633,16 @@ Prefab:
       propertyPath: controller
       value: 
       objectReference: {fileID: 728456536}
+    - target: {fileID: 114061019169900304, guid: e612aa612a0721a4fb19f1f05c9249ab,
+        type: 2}
+      propertyPath: ButtonIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114791894593501168, guid: e612aa612a0721a4fb19f1f05c9249ab,
+        type: 2}
+      propertyPath: ButtonIndex
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e612aa612a0721a4fb19f1f05c9249ab, type: 2}
   m_IsPrefabParent: 0
@@ -782,6 +792,16 @@ Prefab:
     - target: {fileID: 1287599135987950, guid: e612aa612a0721a4fb19f1f05c9249ab, type: 2}
       propertyPath: m_Name
       value: Player (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 114061019169900304, guid: e612aa612a0721a4fb19f1f05c9249ab,
+        type: 2}
+      propertyPath: ButtonIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114791894593501168, guid: e612aa612a0721a4fb19f1f05c9249ab,
+        type: 2}
+      propertyPath: ButtonIndex
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e612aa612a0721a4fb19f1f05c9249ab, type: 2}

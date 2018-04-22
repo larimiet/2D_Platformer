@@ -161,7 +161,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1287599135987950}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 0, z: 0}
+  m_LocalPosition: {x: -4, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4039244914876708}
@@ -280,15 +280,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spritePool:
-  - {fileID: 21300000, guid: 4653c0aae52f9f64990c94df614066d9, type: 3}
-  - {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 21300000, guid: edfdf8fb5cc3f294196d706e45a98b66, type: 3}
+  - {fileID: 21300000, guid: 3cda1e7611d7a414c9f9ee07720d56a9, type: 3}
+  - {fileID: 21300000, guid: 3cda1e7611d7a414c9f9ee07720d56a9, type: 3}
+  - {fileID: 21300000, guid: b714edb598fcbf14d9c7f692a5997c59, type: 3}
+  - {fileID: 21300000, guid: 3283420e473ca4a4ea155e36ac2d4aa1, type: 3}
   sRend: {fileID: 0}
   control: {fileID: 0}
   player: {fileID: 0}
   turnCtrl: {fileID: 0}
   playerCTRL: {fileID: 0}
   sIndex: 0
-  ButtonIndex: 1
+  ButtonIndex: 0
 --- !u!114 &114110987334502886
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -325,8 +328,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spritePool:
-  - {fileID: 21300000, guid: 4653c0aae52f9f64990c94df614066d9, type: 3}
-  - {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 21300000, guid: edfdf8fb5cc3f294196d706e45a98b66, type: 3}
+  - {fileID: 21300000, guid: 3cda1e7611d7a414c9f9ee07720d56a9, type: 3}
+  - {fileID: 21300000, guid: 3cda1e7611d7a414c9f9ee07720d56a9, type: 3}
+  - {fileID: 21300000, guid: b714edb598fcbf14d9c7f692a5997c59, type: 3}
+  - {fileID: 21300000, guid: 3283420e473ca4a4ea155e36ac2d4aa1, type: 3}
   sRend: {fileID: 0}
   control: {fileID: 0}
   player: {fileID: 0}
@@ -363,15 +369,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spritePool:
-  - {fileID: 21300000, guid: 4653c0aae52f9f64990c94df614066d9, type: 3}
-  - {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 21300000, guid: edfdf8fb5cc3f294196d706e45a98b66, type: 3}
+  - {fileID: 21300000, guid: 3cda1e7611d7a414c9f9ee07720d56a9, type: 3}
+  - {fileID: 21300000, guid: 3cda1e7611d7a414c9f9ee07720d56a9, type: 3}
+  - {fileID: 21300000, guid: b714edb598fcbf14d9c7f692a5997c59, type: 3}
+  - {fileID: 21300000, guid: 3283420e473ca4a4ea155e36ac2d4aa1, type: 3}
   sRend: {fileID: 0}
   control: {fileID: 0}
   player: {fileID: 0}
   turnCtrl: {fileID: 0}
   playerCTRL: {fileID: 0}
   sIndex: 0
-  ButtonIndex: 2
+  ButtonIndex: 0
 --- !u!212 &212198830147212552
 SpriteRenderer:
   m_ObjectHideFlags: 1
