@@ -6,55 +6,47 @@ public class PlayerScript : MonoBehaviour
 {
 
     // Use this for initialization
-    public int MovePhase;
+    public enum MovePhase { Plan, InAir, EndTurn, executing, waiting };
+    public MovePhase state;
     public GameObject controller;
     public LayerMask groundLayer;
     public Vector2 target;
     public bool isGrounded;
+    public bool done;
     public int airtime;
     public int suunta;
+    public int playerIndex;
     public Vector2 Liikkuvuus;
+    public TurnControl turnCRTL;
     void Start()
     {
+        turnCRTL = controller.GetComponent<TurnControl>();
+        turnCRTL.units.Add(gameObject);
+        playerIndex = turnCRTL.units.IndexOf(gameObject);
+
         Liikkuvuus = Vector2.zero;
-        MovePhase = 0;
+
         groundLayer = LayerMask.GetMask("Ground");
         suunta = 1;
         target = transform.position;
         airtime = -1;
-        if (GroundCheck(transform.position, Vector2.down, 1, groundLayer))
-        {
-            MovePhase = 2;
-        }
+
+
     }
 
-    void Update()
+    public void TurnStart(int action)
     {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            suunta = 1;
-            TurnStart(1);
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            suunta = -1;
-            TurnStart(1);
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-
-            TurnStart(6);
+        state = MovePhase.executing;
+        if(action == 0){
+            state = MovePhase.EndTurn;
+            Debug.Log("waited turn");
         }
         
-    }
-
-    void TurnStart(int action)
-    {
-        MovePhase = 1;
-        if (action >= 2)
+        else if (action <= 2)
         {
             moveUnit(suunta, action);
         }
+        
         if (action == 3)
         {
             Flip();
@@ -79,9 +71,39 @@ public class PlayerScript : MonoBehaviour
     }
     void turnEnd()
     {
-        gravity(Liikkuvuus);
+        if (turnCRTL.exec == true)
+        {
+            turnCRTL.SendAction();
+        }
+        Debug.Log("TurnEnded "+ playerIndex);
+
+        state = MovePhase.waiting;
 
     }
+
+    void Update()
+    {
+        if (playerIndex != turnCRTL.currentplayer)
+        {
+
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(false);
+            }
+        }
+        else if(state == MovePhase.Plan)
+        {
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(true);
+            }
+
+        }
+
+
+    }
+
+    
     void crouch()
     {
         transform.localScale = new Vector3(transform.localScale.x, 0.5f, 1);
@@ -90,29 +112,54 @@ public class PlayerScript : MonoBehaviour
     {
         isGrounded = GroundCheck(transform.position, Vector2.down, 1, groundLayer);
 
-        transform.position = Vector2.MoveTowards(transform.position, target, 0.05f);
-        if (transform.position == (Vector3)target && MovePhase == 1)
+        if (state == MovePhase.executing || state == MovePhase.InAir)
         {
-            MovePhase = 2;
-            turnEnd();
+            transform.position = Vector2.MoveTowards(transform.position, target, 0.01f);
         }
-        if (!isGrounded)
+        if (state == MovePhase.executing && (Vector2)transform.position == target && isGrounded)
         {
-
+            state = MovePhase.EndTurn;
+        }
+        if (state == MovePhase.executing && (Vector2)transform.position == target && !isGrounded)
+        {
+            state = MovePhase.InAir;
             gravity(Liikkuvuus);
         }
-        if (transform.position == (Vector3)target && MovePhase == 3)
-        {
-
-            MovePhase = 0;
-        }
-        if (isGrounded&&MovePhase == 2)
+        if (state == MovePhase.InAir && isGrounded)
         {
             GoToGrid();
+            airtime = -1;
+            state = MovePhase.EndTurn;
         }
-
-
-
+        if (state == MovePhase.InAir && !isGrounded && (Vector2)transform.position == target)
+        {
+            gravity(Liikkuvuus);
+        }
+        if (state == MovePhase.EndTurn)
+        {
+            turnEnd();
+        }
+        if (state == MovePhase.waiting && !turnCRTL.exec)
+        {
+            state = MovePhase.Plan;
+        }
+        /*
+        if(!isGrounded&&(Vector2)transform.position == target){
+            gravity(Liikkuvuus);
+            state = MovePhase.InAir;
+        }
+       
+        if (state == MovePhase.InAir && isGrounded)
+        {
+            GoToGrid();
+            airtime = -1;
+            done = true;
+        }
+        if(state == MovePhase.executing&&(Vector2) transform.position == target){
+            state = MovePhase.EndTurn;
+        }
+        */
+        //Debug.Log(state+", "+playerIndex);
     }
     void gravity(Vector2 vel)
     {
@@ -120,27 +167,16 @@ public class PlayerScript : MonoBehaviour
         {
             airtime++;
         }
-		if(vel !=Vector2.zero){
-			target += new Vector2(vel.x + (airtime * -suunta), -vel.y + airtime);
-		}
-        else{
-			target += Vector2.down;
-		}
+        if (vel != Vector2.zero)
+        {
+            target += new Vector2(vel.x + (airtime * -suunta), -vel.y);
+        }
+        else
+        {
+            target += Vector2.down;
+        }
 
-        /* 
-		if (!GroundCheck(transform.position, Vector2.down, 1, groundLayer))
-        {
-            target += new Vector2(vel.x,-vel.y);
-			airtime++;
-		}
-		else 
-        {
-			target = transform.position;
-			//MovePhase = 0;
-			airtime= -1;
-			Liikkuvuus = Vector2.zero;
-		}
-		*/
+
 
     }
     void jump(Vector2 vel)
@@ -148,6 +184,14 @@ public class PlayerScript : MonoBehaviour
         Liikkuvuus = vel;
         target = transform.position + (Vector3)Liikkuvuus;
 
+    }
+    void OnCollisionEnter(Collision collision)
+    {
+
+        if (collision.gameObject.tag == "Ground")
+        {
+            GoToGrid();
+        }
     }
     bool GroundCheck(Vector2 pos, Vector2 dir, float distance, LayerMask kerros)
     {
@@ -173,12 +217,12 @@ public class PlayerScript : MonoBehaviour
     }
     void moveUnit(int direction, int howMany)
     {
-        target = transform.position + new Vector3(howMany * direction, 0, 0);
+        target = new Vector2(transform.position.x + howMany * direction, transform.position.y);
     }
 
     void GoToGrid()
     {
-        MovePhase = 3;
+
         target = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0);
     }
 }
