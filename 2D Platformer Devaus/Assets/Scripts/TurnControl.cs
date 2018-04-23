@@ -25,7 +25,7 @@ public class TurnControl : MonoBehaviour {
 	}
 	// Update is called once per frame
 	
-	void Update () {
+	void FixedUpdate () {
 		if(currentplayer >= units.Count){
 			currentplayer = -1;
 			actionPlayer = 0;

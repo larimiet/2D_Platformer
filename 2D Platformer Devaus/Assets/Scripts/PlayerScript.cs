@@ -20,6 +20,7 @@ public class PlayerScript : MonoBehaviour
     public TurnControl turnCRTL;
     void Start()
     {
+        controller = GameObject.FindGameObjectWithTag("GameController");
         turnCRTL = controller.GetComponent<TurnControl>();
         turnCRTL.units.Add(gameObject);
         playerIndex = turnCRTL.units.IndexOf(gameObject);
@@ -187,7 +188,7 @@ public class PlayerScript : MonoBehaviour
         target = transform.position + (Vector3)Liikkuvuus;
 
     }
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter2D(Collision collision)
     {
 
         if (collision.gameObject.tag == "Ground")
