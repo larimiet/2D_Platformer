@@ -60,7 +60,7 @@ public class PlayerScript : MonoBehaviour
         if (action == 5)
         {
             crouch();
-        state = MovePhase.EndTurn;
+            state = MovePhase.EndTurn;
         }
         if (action == 6)
         {
@@ -69,6 +69,11 @@ public class PlayerScript : MonoBehaviour
         if (action == 7)
         {
             jump(Vector2.up * 1 + Vector2.right * suunta * 2);
+        }
+        if(action == 8)
+        {
+            shoot(transform.position);
+            state = MovePhase.EndTurn;
         }
 
     }
@@ -105,7 +110,10 @@ public class PlayerScript : MonoBehaviour
 
 
     }
-
+    void shoot(Vector2 pos)
+    {
+        //ampumisen koodi
+    }
     
     void crouch()
     {
@@ -113,7 +121,7 @@ public class PlayerScript : MonoBehaviour
     }
     void FixedUpdate()
     {
-        isGrounded = GroundCheck(transform.position, Vector2.down, 1, groundLayer);
+        isGrounded = CollisionCheck(transform.position, Vector2.down, 1, groundLayer);
 
         if (state == MovePhase.executing || state == MovePhase.InAir)
         {
@@ -196,7 +204,7 @@ public class PlayerScript : MonoBehaviour
             GoToGrid();
         }
     }
-    bool GroundCheck(Vector2 pos, Vector2 dir, float distance, LayerMask kerros)
+    bool CollisionCheck(Vector2 pos, Vector2 dir, float distance, LayerMask kerros)
     {
 
 
