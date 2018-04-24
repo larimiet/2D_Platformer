@@ -23,13 +23,15 @@ public class buttonActive : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if(Input.GetKeyDown(KeyCode.Space) ){
-			foreach(GameObject button in buttons){
-				turnController.actionList.Add(button.GetComponent<ButtonControl>().sIndex);
+	public void getButtons () {
+		foreach(GameObject button in buttons){
+				turnController.toimintolista[CTRL.playerIndex, button.GetComponent<ButtonControl>().ButtonIndex] =button.GetComponent<ButtonControl>().sIndex;
 			}
-		turnController.currentplayer++;
-		}
 		
+	}
+	public void buttonState(bool tila){
+		foreach(GameObject button in buttons){
+			button.GetComponent<SpriteRenderer>().enabled = tila;
+		}
 	}
 }

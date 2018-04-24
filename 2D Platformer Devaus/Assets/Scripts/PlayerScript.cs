@@ -11,6 +11,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject controller;
     public LayerMask groundLayer;
     public Vector2 target;
+    public float speed;
     public bool isGrounded;
     public bool done;
     public int airtime;
@@ -20,6 +21,7 @@ public class PlayerScript : MonoBehaviour
     public TurnControl turnCRTL;
     void Start()
     {
+        speed = 5;
         controller = GameObject.FindGameObjectWithTag("GameController");
         turnCRTL = controller.GetComponent<TurnControl>();
         turnCRTL.units.Add(gameObject);
@@ -96,14 +98,14 @@ public class PlayerScript : MonoBehaviour
 
             foreach (Transform child in transform)
             {
-                child.gameObject.SetActive(false);
+                child.gameObject.GetComponent<buttonActive>().buttonState(false);
             }
         }
         else if(state == MovePhase.Plan)
         {
             foreach (Transform child in transform)
             {
-                child.gameObject.SetActive(true);
+                child.gameObject.GetComponent<buttonActive>().buttonState(true);
             }
 
         }
@@ -125,7 +127,7 @@ public class PlayerScript : MonoBehaviour
 
         if (state == MovePhase.executing || state == MovePhase.InAir)
         {
-            transform.position = Vector2.MoveTowards(transform.position, target, 0.1f);
+            transform.position = Vector2.MoveTowards(transform.position, target, 0.01f*speed);
         }
         if (state == MovePhase.executing && (Vector2)transform.position == target && isGrounded)
         {
@@ -234,6 +236,6 @@ public class PlayerScript : MonoBehaviour
     void GoToGrid()
     {
 
-        target = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0);
+        transform.position= new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0);
     }
 }
