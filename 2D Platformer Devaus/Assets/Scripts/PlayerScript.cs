@@ -198,7 +198,7 @@ public class PlayerScript : MonoBehaviour
         target = transform.position + (Vector3)Liikkuvuus;
 
     }
-    void OnCollisionEnter2D(Collision collision)
+    void OnCollisionEnter2D(Collision2D collision)
     {
 
         if (collision.gameObject.tag == "Ground")
