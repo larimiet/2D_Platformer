@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System;
 public class TurnControl : MonoBehaviour {
 
 	// Use this for initialization
@@ -67,6 +67,7 @@ public class TurnControl : MonoBehaviour {
 			exec = false;
 			actionPlayer = -1;
 			currentplayer = 0;
+			Array.Clear(toimintolista, 0, toimintolista.Length);
 		}
 		if(exec){
 			foreach(GameObject unit in units){
