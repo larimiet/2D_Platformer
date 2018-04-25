@@ -5,9 +5,10 @@ using UnityEngine;
 public class PlayerScript : MonoBehaviour
 {
 
-    // Use this for initialization
+    // phases for the player
     public enum MovePhase { Plan, InAir, EndTurn, executing, waiting };
     public MovePhase state;
+    //important variables
     public GameObject controller;
     public LayerMask groundLayer;
     public Vector2 target;
@@ -22,7 +23,8 @@ public class PlayerScript : MonoBehaviour
     public bool CanMove;
     void Start()
     {
-        speed = 5;
+        //Initialize all critical variables
+        speed = 1;
         controller = GameObject.FindGameObjectWithTag("GameController");
         turnCRTL = controller.GetComponent<TurnControl>();
         turnCRTL.units.Add(gameObject);
@@ -37,10 +39,11 @@ public class PlayerScript : MonoBehaviour
 
 
     }
-
+    //Tells the player to start the turn and what to do
     public void TurnStart(int action)
     {
         state = MovePhase.executing;
+        //if no action given, wait a turn
         if(action == 0){
             state = MovePhase.EndTurn;
             Debug.Log("waited turn");
@@ -48,25 +51,30 @@ public class PlayerScript : MonoBehaviour
         
         else if (action <= 2)
         {
+            //move unit 1 or 2 squares
             moveUnit(suunta, action);
         }
         
         if (action == 3)
         {
+            //flip the player and end turn
             Flip();
             state = MovePhase.EndTurn;
         }
         if (action == 4)
         {
+            //Starts the jump
             jump(Vector2.up * 2 + Vector2.right * suunta);
         }
         if (action == 5)
         {
+            //Makes the player Crouch
             crouch();
             state = MovePhase.EndTurn;
         }
         if (action == 6)
         {
+            //starts a different jump
             jump(Vector2.up * 2 + Vector2.right * suunta);
         }
         if (action == 7)
@@ -75,63 +83,18 @@ public class PlayerScript : MonoBehaviour
         }
         if(action == 8)
         {
+            //starts the shooting function
+            //TODO: implement shooting and move ending turn to the ammo
             shoot(transform.position);
             state = MovePhase.EndTurn;
         }
 
     }
-    void turnEnd()
-    {
-        if (turnCRTL.exec == true)
-        {
-            turnCRTL.SendAction();
-        }
-        Debug.Log("TurnEnded "+ playerIndex);
-
-        state = MovePhase.waiting;
-
-    }
-
-    void Update()
-    {
-        if (playerIndex != turnCRTL.currentplayer)
-        {
-
-            foreach (Transform child in transform)
-            {
-                if(child.tag == "ButtonControl"){
-                    child.gameObject.GetComponent<buttonActive>().buttonState(false);
-                }
-                
-            }
-        }
-        else if(state == MovePhase.Plan)
-        {
-            foreach (Transform child in transform)
-            {
-                if(child.tag == "ButtonControl"){
-                    child.gameObject.GetComponent<buttonActive>().buttonState(true);
-                }
-            }
-
-        }
-
-
-    }
-    void shoot(Vector2 pos)
-    {
-        //ampumisen koodi
-    }
-    
-    void crouch()
-    {
-        transform.localScale = new Vector3(transform.localScale.x, 0.5f, 1);
-    }
-    void FixedUpdate()
-    {
+    //Handles all the turn logic
+    void TurnLogic(){
         isGrounded = CollisionCheck(transform.position, Vector2.down, 1, groundLayer);
         CanMove = !CollisionCheck(transform.position - new Vector3(0,0.25f,0), Vector2.right*suunta, 0.5f, groundLayer)&&!CollisionCheck(transform.position + new Vector3(0,0.25f,0), Vector2.right*suunta, 0.5f, groundLayer);
-        Debug.Log("CanMove: "+ CanMove+ " Player: "+ playerIndex);
+        //Debug.Log("CanMove: "+ CanMove+ " Player: "+ playerIndex);
         if (state == MovePhase.executing || state == MovePhase.InAir)
         {
             transform.position = Vector2.MoveTowards(transform.position, target, 0.01f*speed);
@@ -167,24 +130,67 @@ public class PlayerScript : MonoBehaviour
         {
             state = MovePhase.Plan;
         }
-        /*
-        if(!isGrounded&&(Vector2)transform.position == target){
-            gravity(Liikkuvuus);
-            state = MovePhase.InAir;
-        }
-       
-        if (state == MovePhase.InAir && isGrounded)
-        {
-            GoToGrid();
-            airtime = -1;
-            done = true;
-        }
-        if(state == MovePhase.executing&&(Vector2) transform.position == target){
-            state = MovePhase.EndTurn;
-        }
-        */
-        //Debug.Log(state+", "+playerIndex);
     }
+    //ENds turn and sends action to next player if needed
+    void turnEnd()
+    {
+        //If execution is on, send action to the next player
+        if (turnCRTL.exec == true)
+        {
+            turnCRTL.SendAction();
+        }
+        Debug.Log("TurnEnded "+ playerIndex);
+        //sets self to wait
+        state = MovePhase.waiting;
+
+    }
+
+    void Update()
+    {
+        //Handles activation and deactivation of buttons when player is inactive
+        if (playerIndex != turnCRTL.currentplayer)
+        {
+
+            foreach (Transform child in transform)
+            {
+                if(child.tag == "ButtonControl"){
+                    child.gameObject.GetComponent<buttonActive>().buttonState(false);
+                }
+                
+            }
+        }
+        else 
+        {
+            foreach (Transform child in transform)
+            {
+                if(child.tag == "ButtonControl"){
+                    child.gameObject.GetComponent<buttonActive>().buttonState(true);
+                }
+            }
+
+        }
+
+
+    }
+    void shoot(Vector2 pos)
+    {
+        //ampumisen koodi
+    }
+    
+    void crouch()
+    {
+        //Courching code TODO: Implement crouching
+        //transform.localScale = new Vector3(transform.localScale.x, 0.5f, 1);
+    }
+    void FixedUpdate()
+    {
+        TurnLogic();
+        
+        
+       
+        
+    }
+    //Handles gravity 
     void gravity(Vector2 vel)
     {
         if (airtime < vel.x)
@@ -203,12 +209,14 @@ public class PlayerScript : MonoBehaviour
 
 
     }
+    //handles a jump, input is the velocity you want the character to jump with
     void jump(Vector2 vel)
     {
         Liikkuvuus = vel;
         target = transform.position + (Vector3)Liikkuvuus;
 
     }
+    //I think this does nothing ATM
     void OnCollisionEnter2D(Collision2D collision)
     {
 
@@ -217,6 +225,7 @@ public class PlayerScript : MonoBehaviour
             GoToGrid();
         }
     }
+    //Checks collision at a position, to a direction, with a distance and only checks for a certain layer
     bool CollisionCheck(Vector2 pos, Vector2 dir, float distance, LayerMask kerros)
     {
 
@@ -232,6 +241,7 @@ public class PlayerScript : MonoBehaviour
 
 
     }
+    //Flips the player
     void Flip()
     {
         suunta = suunta * -1;
@@ -239,11 +249,12 @@ public class PlayerScript : MonoBehaviour
         theScale.x *= -1;
         transform.localScale = theScale;
     }
+    //Moves the players target on the  X axis with a direction of left or right and a distance
     void moveUnit(int direction, int howMany)
     {
         target = new Vector2(transform.position.x + howMany * direction, transform.position.y);
     }
-
+    //Snaps the unit to grid
     void GoToGrid()
     {
 

@@ -37,6 +37,7 @@ public class TurnControl : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.X)){
 			actionPlayer = -1;
 			exec = true;
+			currentplayer = -1;
 			currentComp =0;
 			GetActions();
 			SendAction();
