@@ -23,6 +23,11 @@ public class TurnControl : MonoBehaviour {
 	void Start(){
 		Debug.Log("unit count "+ units.Count);
 		toimintolista = new int[units.Count,3];
+		if (units.Count > 0) {
+    units.Sort(delegate(GameObject a, GameObject b) {
+     return (a.GetComponent<PlayerScript>().playerIndex).CompareTo(b.GetComponent<PlayerScript>().playerIndex);
+    });
+   }
 	}
 	// Update is called once per frame
 	void TurnShit(){
@@ -53,6 +58,10 @@ public class TurnControl : MonoBehaviour {
 		}
 		
 	}
+	public int SortByScore(GameObject p1, GameObject p2)
+     {
+         return p1.GetComponent<PlayerScript>().playerIndex.CompareTo(p2.GetComponent<PlayerScript>().playerIndex);
+     }
 	public void GetActions(){
 		foreach(GameObject unit in units){
 			unit.transform.GetChild(0).GetComponent<buttonActive>().getButtons();

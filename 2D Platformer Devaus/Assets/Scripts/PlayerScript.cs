@@ -28,7 +28,7 @@ public class PlayerScript : MonoBehaviour
         controller = GameObject.FindGameObjectWithTag("GameController");
         turnCRTL = controller.GetComponent<TurnControl>();
         turnCRTL.units.Add(gameObject);
-        playerIndex = turnCRTL.units.IndexOf(gameObject);
+        //playerIndex = turnCRTL.units.IndexOf(gameObject);
 
         Liikkuvuus = Vector2.zero;
 
