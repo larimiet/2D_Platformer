@@ -9,6 +9,7 @@ TagManager:
   - Ammo2
   - Robo2
   - Ground
+  - ButtonControl
   layers:
   - Default
   - TransparentFX
