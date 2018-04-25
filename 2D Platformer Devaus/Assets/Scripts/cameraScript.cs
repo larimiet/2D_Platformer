@@ -28,6 +28,7 @@ public class cameraScript : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		player = CTRL.player;
+		targets = CTRL.targets;
 		MoveCamera();
 		Zoom();
 	}

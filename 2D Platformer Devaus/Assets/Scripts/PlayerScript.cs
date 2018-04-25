@@ -11,6 +11,7 @@ public class PlayerScript : MonoBehaviour
     //important variables
     public GameObject controller;
     public LayerMask groundLayer;
+    public LayerMask DeathLayer;
     public Vector2 target;
     public float speed;
     public bool isGrounded;
@@ -21,17 +22,18 @@ public class PlayerScript : MonoBehaviour
     public Vector2 Liikkuvuus;
     public TurnControl turnCRTL;
     public bool CanMove;
+    public bool IsDead;
     void Start()
     {
         //Initialize all critical variables
-        speed = 5;
+        speed = 10;
         controller = GameObject.FindGameObjectWithTag("GameController");
         turnCRTL = controller.GetComponent<TurnControl>();
         turnCRTL.units.Add(gameObject);
         //playerIndex = turnCRTL.units.IndexOf(gameObject);
-
+        DeathLayer = LayerMask.GetMask("DeathLayer");
         Liikkuvuus = Vector2.zero;
-
+        IsDead = false;
         groundLayer = LayerMask.GetMask("Ground");
         suunta = 1;
         target = transform.position;
@@ -44,17 +46,18 @@ public class PlayerScript : MonoBehaviour
     {
         state = MovePhase.executing;
         //if no action given, wait a turn
-        if(action == 0){
+        if (action == 0)
+        {
             state = MovePhase.EndTurn;
-            Debug.Log("waited turn");
+            //Debug.Log("waited turn");
         }
-        
+
         else if (action <= 2)
         {
             //move unit 1 or 2 squares
             moveUnit(suunta, action);
         }
-        
+
         if (action == 3)
         {
             //flip the player and end turn
@@ -81,7 +84,7 @@ public class PlayerScript : MonoBehaviour
         {
             jump(Vector2.up * 1 + Vector2.right * suunta * 2);
         }
-        if(action == 8)
+        if (action == 8)
         {
             //starts the shooting function
             //TODO: implement shooting and move ending turn to the ammo
@@ -91,13 +94,19 @@ public class PlayerScript : MonoBehaviour
 
     }
     //Handles all the turn logic
-    void TurnLogic(){
+    void TurnLogic()
+    {
         isGrounded = CollisionCheck(transform.position, Vector2.down, 1, groundLayer);
-        CanMove = !CollisionCheck(transform.position - new Vector3(0,0.25f,0), Vector2.right*suunta, 0.5f, groundLayer)&&!CollisionCheck(transform.position + new Vector3(0,0.25f,0), Vector2.right*suunta, 0.5f, groundLayer);
+        CanMove = !CollisionCheck(transform.position - new Vector3(0, 0.25f, 0), Vector2.right * suunta, 0.5f, groundLayer) && !CollisionCheck(transform.position + new Vector3(0, 0.25f, 0), Vector2.right * suunta, 0.5f, groundLayer);
+        IsDead = CollisionCheck(transform.position, Vector2.down, 1, DeathLayer);
         //Debug.Log("CanMove: "+ CanMove+ " Player: "+ playerIndex);
+        if (IsDead)
+        {
+            DIE();
+        }
         if (state == MovePhase.executing || state == MovePhase.InAir)
         {
-            transform.position = Vector2.MoveTowards(transform.position, target, 0.01f*speed);
+            transform.position = Vector2.MoveTowards(transform.position, target, 0.01f * speed);
         }
         if (state == MovePhase.executing && (Vector2)transform.position == target && isGrounded)
         {
@@ -118,7 +127,8 @@ public class PlayerScript : MonoBehaviour
         {
             gravity(Liikkuvuus);
         }
-        if(!CanMove){
+        if (!CanMove)
+        {
             GoToGrid();
             state = MovePhase.EndTurn;
         }
@@ -139,7 +149,7 @@ public class PlayerScript : MonoBehaviour
         {
             turnCRTL.SendAction();
         }
-        Debug.Log("TurnEnded "+ playerIndex);
+       // Debug.Log("TurnEnded " + playerIndex);
         //sets self to wait
         state = MovePhase.waiting;
 
@@ -153,17 +163,19 @@ public class PlayerScript : MonoBehaviour
 
             foreach (Transform child in transform)
             {
-                if(child.tag == "ButtonControl"){
+                if (child.tag == "ButtonControl")
+                {
                     child.gameObject.GetComponent<buttonActive>().buttonState(false);
                 }
-                
+
             }
         }
-        else 
+        else
         {
             foreach (Transform child in transform)
             {
-                if(child.tag == "ButtonControl"){
+                if (child.tag == "ButtonControl")
+                {
                     child.gameObject.GetComponent<buttonActive>().buttonState(true);
                 }
             }
@@ -172,11 +184,21 @@ public class PlayerScript : MonoBehaviour
 
 
     }
+    void DIE()
+    {
+        state = MovePhase.EndTurn;
+        turnCRTL.targets.Remove(transform);
+        Debug.Log("DIED");
+        turnCRTL.units.Remove(gameObject);
+        turnCRTL.SortByIndex(playerIndex);
+        turnCRTL.SortList();
+        GameObject.Destroy(gameObject);
+    }
     void shoot(Vector2 pos)
     {
         //ampumisen koodi
     }
-    
+
     void crouch()
     {
         //Courching code TODO: Implement crouching
@@ -185,10 +207,10 @@ public class PlayerScript : MonoBehaviour
     void FixedUpdate()
     {
         TurnLogic();
-        
-        
-       
-        
+
+
+
+
     }
     //Handles gravity 
     void gravity(Vector2 vel)
@@ -258,6 +280,6 @@ public class PlayerScript : MonoBehaviour
     void GoToGrid()
     {
 
-        transform.position= new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0);
+        transform.position = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0);
     }
 }
