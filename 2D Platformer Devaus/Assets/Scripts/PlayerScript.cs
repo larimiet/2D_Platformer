@@ -24,7 +24,7 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         //Initialize all critical variables
-        speed = 1;
+        speed = 5;
         controller = GameObject.FindGameObjectWithTag("GameController");
         turnCRTL = controller.GetComponent<TurnControl>();
         turnCRTL.units.Add(gameObject);

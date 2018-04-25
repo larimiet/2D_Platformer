@@ -35,11 +35,12 @@ public class cameraScript : MonoBehaviour {
 		if(targets.Count == 0){
 			return;
 		}
-		transform.position = Vector3.SmoothDamp(transform.position, getCenterPoint() + offset, ref velocity , SmoothTime) ;
 		Vector3 centerPoint = getCenterPoint();
+		transform.position = Vector3.SmoothDamp(transform.position, centerPoint + offset, ref velocity , SmoothTime) ;
+		
 	}
 	void Zoom(){
-		Camera.main.orthographicSize = Mathf.Lerp(MinZoom, MaxZoom,GetGreatestDistance()/25);
+		Camera.main.orthographicSize = Mathf.Lerp(MinZoom, MaxZoom,GetGreatestDistance()/50);
 	}
 	float GetGreatestDistance(){
 		Bounds Koko = new Bounds(targets[0].position, Vector3.zero);
