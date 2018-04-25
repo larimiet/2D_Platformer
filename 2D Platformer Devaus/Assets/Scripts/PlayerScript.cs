@@ -99,14 +99,19 @@ public class PlayerScript : MonoBehaviour
 
             foreach (Transform child in transform)
             {
-                child.gameObject.GetComponent<buttonActive>().buttonState(false);
+                if(child.tag == "ButtonControl"){
+                    child.gameObject.GetComponent<buttonActive>().buttonState(false);
+                }
+                
             }
         }
         else if(state == MovePhase.Plan)
         {
             foreach (Transform child in transform)
             {
-                child.gameObject.GetComponent<buttonActive>().buttonState(true);
+                if(child.tag == "ButtonControl"){
+                    child.gameObject.GetComponent<buttonActive>().buttonState(true);
+                }
             }
 
         }
