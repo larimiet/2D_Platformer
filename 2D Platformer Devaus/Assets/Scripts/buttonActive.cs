@@ -26,6 +26,7 @@ public class buttonActive : MonoBehaviour {
 	public void getButtons () {
 		foreach(GameObject button in buttons){
 				turnController.toimintolista[CTRL.playerIndex, button.GetComponent<ButtonControl>().ButtonIndex] =button.GetComponent<ButtonControl>().sIndex;
+				button.GetComponent<ButtonControl>().sIndex = 0;
 			}
 		
 	}
