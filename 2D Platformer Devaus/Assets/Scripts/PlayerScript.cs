@@ -19,6 +19,7 @@ public class PlayerScript : MonoBehaviour
     public int playerIndex;
     public Vector2 Liikkuvuus;
     public TurnControl turnCRTL;
+    public bool CanMove;
     void Start()
     {
         speed = 5;
@@ -124,7 +125,8 @@ public class PlayerScript : MonoBehaviour
     void FixedUpdate()
     {
         isGrounded = CollisionCheck(transform.position, Vector2.down, 1, groundLayer);
-
+        CanMove = !CollisionCheck(transform.position - new Vector3(0,0.25f,0), Vector2.right*suunta, 0.5f, groundLayer)&&!CollisionCheck(transform.position + new Vector3(0,0.25f,0), Vector2.right*suunta, 0.5f, groundLayer);
+        Debug.Log("CanMove: "+ CanMove+ " Player: "+ playerIndex);
         if (state == MovePhase.executing || state == MovePhase.InAir)
         {
             transform.position = Vector2.MoveTowards(transform.position, target, 0.01f*speed);
@@ -147,6 +149,10 @@ public class PlayerScript : MonoBehaviour
         if (state == MovePhase.InAir && !isGrounded && (Vector2)transform.position == target)
         {
             gravity(Liikkuvuus);
+        }
+        if(!CanMove){
+            GoToGrid();
+            state = MovePhase.EndTurn;
         }
         if (state == MovePhase.EndTurn)
         {
