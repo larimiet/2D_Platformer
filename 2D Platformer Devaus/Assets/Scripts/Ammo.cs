@@ -11,6 +11,7 @@ public class Ammo : MonoBehaviour
     public float speed = 5;
     public Vector2 startPos;
     public Vector2 targetPos;
+    public PlayerScript shooter;
 	// Use this for initialization
 	void Start ()
     {
@@ -30,6 +31,7 @@ public class Ammo : MonoBehaviour
             /*sRend.enabled = false;
             targetReached = true;
             transform.position = startPos;*/
+            shooter.shooting = 2;
             Destroy(gameObject);
         }
     }

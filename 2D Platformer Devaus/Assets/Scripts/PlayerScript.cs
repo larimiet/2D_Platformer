@@ -23,6 +23,10 @@ public class PlayerScript : MonoBehaviour
     public TurnControl turnCRTL;
     public bool CanMove;
     public bool IsDead;
+    public int shooting = 0;
+    public GameObject ammoPrefab;
+    public float shootingRange = 8;
+
     void Start()
     {
         //Initialize all critical variables
@@ -71,25 +75,33 @@ public class PlayerScript : MonoBehaviour
         }
         if (action == 5)
         {
-            //Makes the player Crouch
-            crouch();
-            state = MovePhase.EndTurn;
-        }
-        if (action == 6)
-        {
             //starts a different jump
             jump(Vector2.up * 2 + Vector2.right * suunta);
         }
-        if (action == 7)
+        if (action == 6)
         {
             jump(Vector2.up * 1 + Vector2.right * suunta * 2);
+        }
+        if (action == 7)
+        {
+            //Makes the player Crouch
+            crouch();
+            state = MovePhase.EndTurn;
         }
         if (action == 8)
         {
             //starts the shooting function
             //TODO: implement shooting and move ending turn to the ammo
-            shoot(transform.position);
-            state = MovePhase.EndTurn;
+            if (shooting == 0)
+            {
+                shoot(suunta);
+                shooting = 1;
+            }
+            if (shooting == 2)
+            {
+                state = MovePhase.EndTurn;
+                shooting = 0;
+            }
         }
 
     }
@@ -194,9 +206,16 @@ public class PlayerScript : MonoBehaviour
         turnCRTL.SortList();
         GameObject.Destroy(gameObject);
     }
-    void shoot(Vector2 pos)
+    void shoot(int dir)
     {
-        //ampumisen koodi
+        GameObject ammoCreation = Instantiate(ammoPrefab, new Vector2(transform.position.x +
+        dir,
+        transform.position.y + 0.5f), Quaternion.identity);
+        ammoCreation.GetComponent<Ammo>().direction = dir;
+        ammoCreation.GetComponent<Ammo>().startPos = transform.position;
+        ammoCreation.GetComponent<Ammo>().targetPos = new Vector2(transform.position.x +
+        shootingRange * dir, transform.position.y);
+        ammoCreation.GetComponent<Ammo>().shooter = gameObject.GetComponent<PlayerScript>();
     }
 
     void crouch()
