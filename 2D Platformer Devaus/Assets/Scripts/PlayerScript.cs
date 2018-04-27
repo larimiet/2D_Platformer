@@ -6,6 +6,7 @@ public class PlayerScript : MonoBehaviour
 {
 
     // phases for the player
+     public List<int> NoMoves = new List<int>();
     public enum MovePhase { Plan, InAir, EndTurn, executing, waiting, shooting };
     public MovePhase state;
     //important variables

@@ -23,7 +23,7 @@ public class ButtonControl : MonoBehaviour
         sIndex = 0;
         turnCtrl = control.GetComponent<TurnControl>();
         playerCTRL = player.GetComponent<PlayerScript>();
-
+        BannedMoves = playerCTRL.NoMoves;
     }
 
     // Update is called once per frame
