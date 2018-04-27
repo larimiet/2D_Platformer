@@ -8,7 +8,7 @@ public class Ammo : MonoBehaviour
     public Rigidbody2D rb2D;
     public float direction;
     public bool targetReached = false;
-    public float speed = 5;
+    public float speed = 10;
     public Vector2 startPos;
     public Vector2 targetPos;
     public PlayerScript shooter;
@@ -31,7 +31,7 @@ public class Ammo : MonoBehaviour
             /*sRend.enabled = false;
             targetReached = true;
             transform.position = startPos;*/
-            shooter.shooting = 2;
+            shooter.state = PlayerScript.MovePhase.EndTurn;
             Destroy(gameObject);
         }
     }

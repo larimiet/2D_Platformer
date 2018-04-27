@@ -6,7 +6,7 @@ public class PlayerScript : MonoBehaviour
 {
 
     // phases for the player
-    public enum MovePhase { Plan, InAir, EndTurn, executing, waiting };
+    public enum MovePhase { Plan, InAir, EndTurn, executing, waiting, shooting };
     public MovePhase state;
     //important variables
     public GameObject controller;
@@ -23,7 +23,6 @@ public class PlayerScript : MonoBehaviour
     public TurnControl turnCRTL;
     public bool CanMove;
     public bool IsDead;
-    public int shooting = 0;
     public GameObject ammoPrefab;
     public float shootingRange = 8;
 
@@ -92,16 +91,9 @@ public class PlayerScript : MonoBehaviour
         {
             //starts the shooting function
             //TODO: implement shooting and move ending turn to the ammo
-            if (shooting == 0)
-            {
-                shoot(suunta);
-                shooting = 1;
-            }
-            if (shooting == 2)
-            {
-                state = MovePhase.EndTurn;
-                shooting = 0;
-            }
+            
+                state = MovePhase.shooting;
+                shoot(suunta);  
         }
 
     }

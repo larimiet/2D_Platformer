@@ -103,9 +103,10 @@ MonoBehaviour:
   rb2D: {fileID: 0}
   direction: 0
   targetReached: 0
-  speed: 5
+  speed: 10
   startPos: {x: 0, y: 0}
   targetPos: {x: 0, y: 0}
+  shooter: {fileID: 0}
 --- !u!212 &212387430795232020
 SpriteRenderer:
   m_ObjectHideFlags: 1
