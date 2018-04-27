@@ -608,7 +608,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1287599135987950}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 2, z: 0}
+  m_LocalPosition: {x: 3, y: 2.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4039244914876708}
@@ -877,12 +877,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f872ca893871e4040bfef8824c95fedf, type: 3}
   - {fileID: 21300000, guid: 8bd46920b82a77f4782a48960b705c08, type: 3}
   - {fileID: 21300000, guid: 7831081d8fea8414fba6e839e7dd4245, type: 3}
-  sRend: {fileID: 212706635520935736}
-  BannedMoves: 
+  sRend: {fileID: 0}
+  BannedMoves: 05000000
   control: {fileID: 0}
-  player: {fileID: 1287599135987950}
+  player: {fileID: 0}
   turnCtrl: {fileID: 0}
-  playerCTRL: {fileID: 114110987334502886}
+  playerCTRL: {fileID: 0}
   sIndex: 0
   ButtonIndex: 1
 --- !u!114 &114110987334502886
@@ -903,18 +903,19 @@ MonoBehaviour:
     m_Bits: 256
   DeathLayer:
     serializedVersion: 2
-    m_Bits: 512
-  target: {x: 3, y: -1}
-  speed: 10
-  isGrounded: 1
+    m_Bits: 0
+  target: {x: 0, y: 0}
+  speed: 0
+  isGrounded: 0
   done: 0
-  airtime: -1
-  suunta: 1
+  airtime: 0
+  suunta: 0
   playerIndex: 0
-  Liikkuvuus: {x: 0, y: 3}
+  Liikkuvuus: {x: 0, y: 0}
   turnCRTL: {fileID: 0}
-  CanMove: 1
+  CanMove: 0
   IsDead: 0
+  shooting: 0
   ammoPrefab: {fileID: 1565124034561136, guid: b59a38857ece3ec4bbb529d06c6c5b03, type: 2}
   shootingRange: 8
 --- !u!114 &114389418427343322
@@ -938,13 +939,13 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f872ca893871e4040bfef8824c95fedf, type: 3}
   - {fileID: 21300000, guid: 8bd46920b82a77f4782a48960b705c08, type: 3}
   - {fileID: 21300000, guid: 7831081d8fea8414fba6e839e7dd4245, type: 3}
-  sRend: {fileID: 212952775442987182}
-  BannedMoves: 
+  sRend: {fileID: 0}
+  BannedMoves: 05000000
   control: {fileID: 0}
-  player: {fileID: 1287599135987950}
+  player: {fileID: 0}
   turnCtrl: {fileID: 0}
-  playerCTRL: {fileID: 114110987334502886}
-  sIndex: 6
+  playerCTRL: {fileID: 0}
+  sIndex: 0
   ButtonIndex: 0
 --- !u!114 &114590785225556976
 MonoBehaviour:
@@ -959,13 +960,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Controller: {fileID: 0}
   turnController: {fileID: 0}
-  buttons:
-  - {fileID: 1371544027596026}
-  - {fileID: 1536126074543290}
-  - {fileID: 1213603792425138}
-  player: {fileID: 1287599135987950}
+  buttons: []
+  player: {fileID: 0}
   buttonCtrl: {fileID: 0}
-  CTRL: {fileID: 114110987334502886}
+  CTRL: {fileID: 0}
 --- !u!114 &114791894593501168
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -987,12 +985,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: f872ca893871e4040bfef8824c95fedf, type: 3}
   - {fileID: 21300000, guid: 8bd46920b82a77f4782a48960b705c08, type: 3}
   - {fileID: 21300000, guid: 7831081d8fea8414fba6e839e7dd4245, type: 3}
-  sRend: {fileID: 212198830147212552}
-  BannedMoves: 
+  sRend: {fileID: 0}
+  BannedMoves: 05000000
   control: {fileID: 0}
-  player: {fileID: 1287599135987950}
+  player: {fileID: 0}
   turnCtrl: {fileID: 0}
-  playerCTRL: {fileID: 114110987334502886}
+  playerCTRL: {fileID: 0}
   sIndex: 0
   ButtonIndex: 2
 --- !u!212 &212019039051610504
@@ -1045,7 +1043,7 @@ SpriteRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1465296480441652}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1353,7 +1351,7 @@ SpriteRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1386231452962186}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -1749,7 +1747,7 @@ SpriteRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1457447012162924}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1

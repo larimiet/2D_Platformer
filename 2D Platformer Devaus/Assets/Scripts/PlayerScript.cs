@@ -70,7 +70,7 @@ public class PlayerScript : MonoBehaviour
         if (action == 4)
         {
             //Starts the jump
-            jump(Vector2.up * 3);
+            jump(Vector2.up * 2 + Vector2.right * suunta);
         }
         if (action == 5)
         {
