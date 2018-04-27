@@ -265,6 +265,10 @@ public class PlayerScript : MonoBehaviour
         {
             GoToGrid();
         }
+        if (collision.gameObject.tag == "Ammo1")
+        {
+            DIE();
+        }
     }
     //Checks collision at a position, to a direction, with a distance and only checks for a certain layer
     bool CollisionCheck(Vector2 pos, Vector2 dir, float distance, LayerMask kerros)
