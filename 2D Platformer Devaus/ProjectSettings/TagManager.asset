@@ -10,6 +10,7 @@ TagManager:
   - Robo2
   - Ground
   - ButtonControl
+  - MainMenu
   layers:
   - Default
   - TransparentFX
