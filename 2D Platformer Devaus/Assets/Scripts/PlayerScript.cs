@@ -13,6 +13,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject controller;
     public LayerMask groundLayer;
     public LayerMask DeathLayer;
+    public Animator anim;
     public Vector2 target;
     public float speed;
     public bool isGrounded;
@@ -33,6 +34,7 @@ public class PlayerScript : MonoBehaviour
         speed = 10;
         controller = GameObject.FindGameObjectWithTag("GameController");
         turnCRTL = controller.GetComponent<TurnControl>();
+        anim = GetComponent<Animator>();
         turnCRTL.units.Add(gameObject);
         //playerIndex = turnCRTL.units.IndexOf(gameObject);
         DeathLayer = LayerMask.GetMask("DeathLayer");
@@ -213,6 +215,7 @@ public class PlayerScript : MonoBehaviour
 
     void crouch()
     {
+        anim.SetInteger("CrouchControl", 1);
         //Courching code TODO: Implement crouching
         //transform.localScale = new Vector3(transform.localScale.x, 0.5f, 1);
     }
@@ -250,6 +253,18 @@ public class PlayerScript : MonoBehaviour
         target = transform.position + (Vector3)Liikkuvuus;
 
     }
+
+    //Kutsutaan vain animaatiosta käsin. CrouchControl Arvolla 1 saadaan hahmo kyykkäämään,
+    //arvolla 3 nousemaan ylös.
+    public void IntoCrouch()
+    {
+        anim.SetInteger("CrouchControl", 2);
+    }
+    public void FromCrouch()
+    {
+        anim.SetInteger("CrouchControl", 4);
+    }
+
     //I think this does nothing ATM
     void OnCollisionEnter2D(Collision2D collision)
     {
