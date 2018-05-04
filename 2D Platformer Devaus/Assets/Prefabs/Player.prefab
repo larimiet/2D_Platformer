@@ -907,7 +907,7 @@ MonoBehaviour:
     m_Bits: 0
   anim: {fileID: 0}
   target: {x: 0, y: 0}
-  speed: 0
+  speed: 10
   isGrounded: 0
   done: 0
   airtime: 0
@@ -919,6 +919,7 @@ MonoBehaviour:
   IsDead: 0
   ammoPrefab: {fileID: 1565124034561136, guid: b59a38857ece3ec4bbb529d06c6c5b03, type: 2}
   shootingRange: 8
+  actionLocal: 0
 --- !u!114 &114389418427343322
 MonoBehaviour:
   m_ObjectHideFlags: 1

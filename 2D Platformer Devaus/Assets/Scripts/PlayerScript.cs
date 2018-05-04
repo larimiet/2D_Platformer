@@ -27,11 +27,12 @@ public class PlayerScript : MonoBehaviour
     public bool IsDead;
     public GameObject ammoPrefab;
     public float shootingRange = 8;
+    public int actionLocal;
 
     void Start()
     {
         //Initialize all critical variables
-        speed = 10;
+        speed = 5;
         controller = GameObject.FindGameObjectWithTag("GameController");
         turnCRTL = controller.GetComponent<TurnControl>();
         anim = GetComponent<Animator>();
@@ -62,6 +63,7 @@ public class PlayerScript : MonoBehaviour
         {
             //move unit 1 or 2 squares
             moveUnit(suunta, action);
+            
         }
 
         if (action == 3)
@@ -98,7 +100,7 @@ public class PlayerScript : MonoBehaviour
                 state = MovePhase.shooting;
                 shoot(suunta);  
         }
-
+        actionLocal = action;
     }
     //Handles all the turn logic
     void TurnLogic()
@@ -113,7 +115,22 @@ public class PlayerScript : MonoBehaviour
         }
         if (state == MovePhase.executing || state == MovePhase.InAir)
         {
-            transform.position = Vector2.MoveTowards(transform.position, target, 0.01f * speed);
+            transform.position = Vector2.MoveTowards(transform.position, target, 0.2f * speed * Time.deltaTime);
+        }
+        if(state == MovePhase.executing && actionLocal <= 2)
+        {
+            speed = 10;
+            anim.SetBool("Walk", true);
+        }
+        if (state == MovePhase.executing && actionLocal > 3 && actionLocal < 7)
+        {
+            speed = 30;
+            anim.SetBool("Jump", true);
+        }
+        if (state != MovePhase.executing)
+        {
+            anim.SetBool("Walk", false);
+            anim.SetBool("Jump", false);
         }
         if (state == MovePhase.executing && (Vector2)transform.position == target && isGrounded)
         {
