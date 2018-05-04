@@ -28,6 +28,7 @@ public class PlayerScript : MonoBehaviour
     public GameObject ammoPrefab;
     public float shootingRange = 8;
     public int actionLocal;
+    public GameObject cameraFollow;
 
     void Start()
     {
@@ -45,7 +46,7 @@ public class PlayerScript : MonoBehaviour
         suunta = 1;
         target = transform.position;
         airtime = -1;
-
+        cameraFollow = GameObject.FindGameObjectWithTag("CameraFollow");
 
     }
     //Tells the player to start the turn and what to do
@@ -201,6 +202,7 @@ public class PlayerScript : MonoBehaviour
                 if (child.tag == "ButtonControl")
                 {
                     child.gameObject.GetComponent<buttonActive>().buttonState(true);
+                    cameraFollow.transform.position = transform.position;
                 }
             }
 
