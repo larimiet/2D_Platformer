@@ -608,7 +608,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1287599135987950}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4039244914876708}
@@ -869,14 +869,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spritePool:
   - {fileID: 21300000, guid: edfdf8fb5cc3f294196d706e45a98b66, type: 3}
-  - {fileID: 21300000, guid: 54b06be5e3184b64186787e1f8b94c8d, type: 3}
-  - {fileID: 21300000, guid: 87801e38a1a9dc34a9fbf35aa5f847a7, type: 3}
-  - {fileID: 21300000, guid: b714edb598fcbf14d9c7f692a5997c59, type: 3}
-  - {fileID: 21300000, guid: 634b03c38212e824b807fb811cb88e4c, type: 3}
-  - {fileID: 21300000, guid: 46691f976a460d04e872a20022d98a3e, type: 3}
-  - {fileID: 21300000, guid: f872ca893871e4040bfef8824c95fedf, type: 3}
-  - {fileID: 21300000, guid: 8bd46920b82a77f4782a48960b705c08, type: 3}
-  - {fileID: 21300000, guid: 7831081d8fea8414fba6e839e7dd4245, type: 3}
+  - {fileID: 21300000, guid: 3bed9ad57a4102f4a96340188df0f250, type: 3}
+  - {fileID: 21300000, guid: 3307e9443d5b8c5489a88101f7c70ce0, type: 3}
+  - {fileID: 21300000, guid: 423135605d83bae41ad19c22dd4eb2f3, type: 3}
+  - {fileID: 21300002, guid: 47ac343f702c01f468227c9312b4a397, type: 3}
+  - {fileID: 21300006, guid: 47ac343f702c01f468227c9312b4a397, type: 3}
+  - {fileID: 21300000, guid: 47ac343f702c01f468227c9312b4a397, type: 3}
+  - {fileID: 21300004, guid: 47ac343f702c01f468227c9312b4a397, type: 3}
+  - {fileID: 21300000, guid: d9e112fc16f219245a4be916754b486f, type: 3}
   sRend: {fileID: 0}
   BannedMoves: 05000000
   control: {fileID: 0}
@@ -905,13 +905,14 @@ MonoBehaviour:
   DeathLayer:
     serializedVersion: 2
     m_Bits: 0
+  anim: {fileID: 0}
   target: {x: 0, y: 0}
   speed: 0
   isGrounded: 0
   done: 0
   airtime: 0
   suunta: 0
-  playerIndex: 2
+  playerIndex: 0
   Liikkuvuus: {x: 0, y: 0}
   turnCRTL: {fileID: 0}
   CanMove: 0
@@ -930,15 +931,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spritePool:
-  - {fileID: 21300000, guid: edfdf8fb5cc3f294196d706e45a98b66, type: 3}
-  - {fileID: 21300000, guid: 54b06be5e3184b64186787e1f8b94c8d, type: 3}
-  - {fileID: 21300000, guid: 87801e38a1a9dc34a9fbf35aa5f847a7, type: 3}
-  - {fileID: 21300000, guid: b714edb598fcbf14d9c7f692a5997c59, type: 3}
-  - {fileID: 21300000, guid: 634b03c38212e824b807fb811cb88e4c, type: 3}
-  - {fileID: 21300000, guid: 46691f976a460d04e872a20022d98a3e, type: 3}
-  - {fileID: 21300000, guid: f872ca893871e4040bfef8824c95fedf, type: 3}
-  - {fileID: 21300000, guid: 8bd46920b82a77f4782a48960b705c08, type: 3}
-  - {fileID: 21300000, guid: 7831081d8fea8414fba6e839e7dd4245, type: 3}
+  - {fileID: 21300000, guid: d02c0408fc4225b428a6385aa30b1f35, type: 3}
+  - {fileID: 21300000, guid: 3bed9ad57a4102f4a96340188df0f250, type: 3}
+  - {fileID: 21300000, guid: 3307e9443d5b8c5489a88101f7c70ce0, type: 3}
+  - {fileID: 21300000, guid: 423135605d83bae41ad19c22dd4eb2f3, type: 3}
+  - {fileID: 21300002, guid: 47ac343f702c01f468227c9312b4a397, type: 3}
+  - {fileID: 21300006, guid: 47ac343f702c01f468227c9312b4a397, type: 3}
+  - {fileID: 21300000, guid: 47ac343f702c01f468227c9312b4a397, type: 3}
+  - {fileID: 21300004, guid: 47ac343f702c01f468227c9312b4a397, type: 3}
+  - {fileID: 21300000, guid: d9e112fc16f219245a4be916754b486f, type: 3}
   sRend: {fileID: 0}
   BannedMoves: 05000000
   control: {fileID: 0}
@@ -977,14 +978,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spritePool:
   - {fileID: 21300000, guid: edfdf8fb5cc3f294196d706e45a98b66, type: 3}
-  - {fileID: 21300000, guid: 54b06be5e3184b64186787e1f8b94c8d, type: 3}
-  - {fileID: 21300000, guid: 87801e38a1a9dc34a9fbf35aa5f847a7, type: 3}
-  - {fileID: 21300000, guid: b714edb598fcbf14d9c7f692a5997c59, type: 3}
-  - {fileID: 21300000, guid: 634b03c38212e824b807fb811cb88e4c, type: 3}
-  - {fileID: 21300000, guid: 46691f976a460d04e872a20022d98a3e, type: 3}
-  - {fileID: 21300000, guid: f872ca893871e4040bfef8824c95fedf, type: 3}
-  - {fileID: 21300000, guid: 8bd46920b82a77f4782a48960b705c08, type: 3}
-  - {fileID: 21300000, guid: 7831081d8fea8414fba6e839e7dd4245, type: 3}
+  - {fileID: 21300000, guid: 3bed9ad57a4102f4a96340188df0f250, type: 3}
+  - {fileID: 21300000, guid: 3307e9443d5b8c5489a88101f7c70ce0, type: 3}
+  - {fileID: 21300000, guid: 423135605d83bae41ad19c22dd4eb2f3, type: 3}
+  - {fileID: 21300002, guid: 47ac343f702c01f468227c9312b4a397, type: 3}
+  - {fileID: 21300006, guid: 47ac343f702c01f468227c9312b4a397, type: 3}
+  - {fileID: 21300000, guid: 47ac343f702c01f468227c9312b4a397, type: 3}
+  - {fileID: 21300004, guid: 47ac343f702c01f468227c9312b4a397, type: 3}
+  - {fileID: 21300000, guid: d9e112fc16f219245a4be916754b486f, type: 3}
   sRend: {fileID: 0}
   BannedMoves: 05000000
   control: {fileID: 0}
