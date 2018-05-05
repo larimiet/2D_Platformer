@@ -25,6 +25,7 @@ public class Ammo : MonoBehaviour
         if (transform.position.x < targetPos.x - speed / 20 || transform.position.x > targetPos.x + speed / 20)
         {
             transform.Translate(new Vector2(speed * Time.deltaTime * direction, 0));
+            transform.localScale = new Vector2(direction, 1);
         }
         else
         {

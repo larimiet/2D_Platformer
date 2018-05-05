@@ -27,6 +27,11 @@ public class PlayerScript : MonoBehaviour
     public bool IsDead;
     public GameObject ammoPrefab;
     public float shootingRange = 8;
+    public int actionLocal;
+    public GameObject cameraFollow;
+
+    public bool performFallDown = false;
+    public Vector2 targetPos;
 
     void Start()
     {
@@ -44,7 +49,7 @@ public class PlayerScript : MonoBehaviour
         suunta = 1;
         target = transform.position;
         airtime = -1;
-
+        cameraFollow = GameObject.FindGameObjectWithTag("CameraFollow");
 
     }
     //Tells the player to start the turn and what to do
@@ -62,13 +67,13 @@ public class PlayerScript : MonoBehaviour
         {
             //move unit 1 or 2 squares
             moveUnit(suunta, action);
+            
         }
 
         if (action == 3)
         {
             //flip the player and end turn
             Flip();
-            state = MovePhase.EndTurn;
         }
         if (action == 4)
         {
@@ -98,7 +103,7 @@ public class PlayerScript : MonoBehaviour
                 state = MovePhase.shooting;
                 shoot(suunta);  
         }
-
+        actionLocal = action;
     }
     //Handles all the turn logic
     void TurnLogic()
@@ -113,7 +118,22 @@ public class PlayerScript : MonoBehaviour
         }
         if (state == MovePhase.executing || state == MovePhase.InAir)
         {
-            transform.position = Vector2.MoveTowards(transform.position, target, 0.01f * speed);
+            transform.position = Vector2.MoveTowards(transform.position, target, 0.2f * speed * Time.deltaTime);
+        }
+        if(state == MovePhase.executing && actionLocal <= 2)
+        {
+            speed = 10;
+            anim.SetBool("Walk", true);
+        }
+        if (state == MovePhase.executing && actionLocal > 3 && actionLocal < 7)
+        {
+            speed = 30;
+            anim.SetBool("Jump", true);
+        }
+        if (state != MovePhase.executing)
+        {
+            anim.SetBool("Walk", false);
+            anim.SetBool("Jump", false);
         }
         if (state == MovePhase.executing && (Vector2)transform.position == target && isGrounded)
         {
@@ -134,7 +154,7 @@ public class PlayerScript : MonoBehaviour
         {
             gravity(Liikkuvuus);
         }
-        if (!CanMove)
+        if (!CanMove && !performFallDown)
         {
             GoToGrid();
             state = MovePhase.EndTurn;
@@ -146,6 +166,25 @@ public class PlayerScript : MonoBehaviour
         if (state == MovePhase.waiting && !turnCRTL.exec)
         {
             state = MovePhase.Plan;
+        }
+        if (!isGrounded && !performFallDown && state == MovePhase.Plan)
+        {
+            RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x,
+            transform.position.y - 1.05f), -transform.up);
+            if (hit.collider != null)
+            {
+                targetPos = (new Vector2(hit.collider.transform.position.x,
+                hit.collider.transform.position.y * 1.5f));
+            }
+            else
+            {
+                targetPos = new Vector2(0, -1000f);
+            }
+            performFallDown = true;
+        }
+        if (performFallDown == true)
+        {
+            FallDown(speed / 10);
         }
     }
     //ENds turn and sends action to next player if needed
@@ -184,6 +223,7 @@ public class PlayerScript : MonoBehaviour
                 if (child.tag == "ButtonControl")
                 {
                     child.gameObject.GetComponent<buttonActive>().buttonState(true);
+                    cameraFollow.transform.position = transform.position;
                 }
             }
 
@@ -297,20 +337,33 @@ public class PlayerScript : MonoBehaviour
     //Flips the player
     void Flip()
     {
-        suunta = suunta * -1;
-        Vector3 theScale = transform.localScale;
-        theScale.x *= -1;
-        transform.localScale = theScale;
+            suunta = suunta * -1;
+            Vector3 theScale = transform.localScale;
+            theScale.x *= -1;
+            transform.localScale = theScale;
     }
     //Moves the players target on the  X axis with a direction of left or right and a distance
     void moveUnit(int direction, int howMany)
     {
-        target = new Vector2(transform.position.x + howMany * direction, transform.position.y);
+         target = new Vector2(transform.position.x + howMany * direction, transform.position.y);
     }
     //Snaps the unit to grid
     void GoToGrid()
     {
 
         transform.position = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0);
+    }
+    public void FallDown(float spd)
+    {
+        if (transform.position.y < targetPos.y - speed / 20 || transform.position.y > targetPos.y + speed / 20)
+        {
+            transform.Translate(new Vector2(0, -spd * Time.deltaTime));
+        }
+        else
+        {
+            //transform.position = targetPos;
+            GoToGrid();
+            performFallDown = false;
+        }
     }
 }
