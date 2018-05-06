@@ -13,6 +13,8 @@ public class cameraScript : MonoBehaviour {
 	public float MaxZoom;
 	private Vector3 offset;
 	// Use this for initialization
+	float sensitivity;
+	public float zoomRatio;
 	void Start () {
 		control = GameObject.FindGameObjectWithTag("GameController");
 		CTRL = control.GetComponent<TurnControl>();
@@ -22,9 +24,19 @@ public class cameraScript : MonoBehaviour {
 		}
 		SmoothTime = 0.25f;
 		MinZoom = 5;
+		zoomRatio = 1;
+		sensitivity = 0.5f;
 	}
 	
 	// Update is called once per frame
+	void Update(){
+		if(zoomRatio > 0.5){
+			zoomRatio += Input.GetAxis("Mouse ScrollWheel")*sensitivity;
+		}else{
+			zoomRatio = 0.56f;
+		}
+		
+	}
 	void FixedUpdate () {
 		player = CTRL.player;
 		foreach(GameObject unit in GameObject.FindGameObjectsWithTag("Player")){
@@ -35,7 +47,7 @@ public class cameraScript : MonoBehaviour {
 		MoveCamera(getCenterPoint());
 		MaxZoom = GetGreatestDistance();
 		Zoom();
-
+		
 	}
 	public void clearTargets(){
 		targets.Clear();
@@ -50,7 +62,7 @@ public class cameraScript : MonoBehaviour {
 	}
 	void Zoom(){
 		
-		Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,(GetGreatestDistance()/2) +0.5f , SmoothTime);
+		Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,(GetGreatestDistance()/2) *zoomRatio , SmoothTime);
 	}
 	float GetGreatestDistance(){
 		Bounds Koko = new Bounds(targets[0].position, Vector3.zero);
