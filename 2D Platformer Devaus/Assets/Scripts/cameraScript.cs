@@ -24,16 +24,20 @@ public class cameraScript : MonoBehaviour {
 		}
 		SmoothTime = 0.25f;
 		MinZoom = 5;
-		zoomRatio = 1;
-		sensitivity = 0.5f;
+		zoomRatio = 1.1f;
+		sensitivity = 0.05f;
 	}
 	
 	// Update is called once per frame
 	void Update(){
-		if(zoomRatio > 0.5){
+		if(zoomRatio > 0.5 ){
 			zoomRatio += Input.GetAxis("Mouse ScrollWheel")*sensitivity;
 		}else{
-			zoomRatio = 0.56f;
+			zoomRatio = 0.51f;
+		}if(zoomRatio < 1.5 ){
+			zoomRatio += Input.GetAxis("Mouse ScrollWheel")*sensitivity;
+		}else{
+			zoomRatio = 1.49f;
 		}
 		
 	}
@@ -51,6 +55,7 @@ public class cameraScript : MonoBehaviour {
 	}
 	public void clearTargets(){
 		targets.Clear();
+		zoomRatio = 1.1f;
 	}
 	void MoveCamera(Vector3 point){
 		if(targets.Count == 0){
