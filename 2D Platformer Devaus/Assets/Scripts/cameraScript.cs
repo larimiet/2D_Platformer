@@ -16,34 +16,41 @@ public class cameraScript : MonoBehaviour {
 	void Start () {
 		control = GameObject.FindGameObjectWithTag("GameController");
 		CTRL = control.GetComponent<TurnControl>();
-		offset = transform.position - player.transform.position;
+		offset = new Vector3(0,0,-1);
 		foreach (GameObject item in CTRL.units){
 			targets.Add(item.transform);
 		}
 		SmoothTime = 0.25f;
 		MinZoom = 5;
-		MaxZoom = 12;
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
 		player = CTRL.player;
-		targets = CTRL.targets;
-		MoveCamera();
+		foreach(GameObject unit in GameObject.FindGameObjectsWithTag("Player")){
+			if(unit.GetComponent<PlayerScript>().TeamID == CTRL.currentTeam&&!targets.Contains(unit.transform)){
+				targets.Add(unit.transform);
+			}
+		}
+		MoveCamera(getCenterPoint());
+		MaxZoom = GetGreatestDistance();
 		Zoom();
-	
-	}
 
-	void MoveCamera(){
+	}
+	public void clearTargets(){
+		targets.Clear();
+	}
+	void MoveCamera(Vector3 point){
 		if(targets.Count == 0){
 			return;
 		}
-		Vector3 centerPoint = getCenterPoint();
-		transform.position = Vector3.SmoothDamp(transform.position, centerPoint + offset, ref velocity , SmoothTime) ;
+		 
+		transform.position = Vector3.SmoothDamp(transform.position, point + offset, ref velocity , SmoothTime) ;
 		
 	}
 	void Zoom(){
-		Camera.main.orthographicSize = Mathf.Lerp(MinZoom, MaxZoom,GetGreatestDistance()/25);
+		
+		Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,(GetGreatestDistance()/2) +0.5f , SmoothTime);
 	}
 	float GetGreatestDistance(){
 		Bounds Koko = new Bounds(targets[0].position, Vector3.zero);

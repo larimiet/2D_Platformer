@@ -12,8 +12,10 @@ public class TurnControl : MonoBehaviour
     public int currentComp;
     public List<Transform> targets = new List<Transform>();
     public List<GameObject> units;
+    public GameObject PrimeCamera;
     public List<int> actionList = new List<int>();
     public int[,] toimintolista;
+    public cameraScript cameraScripti;
     public bool exec;
     public int teams;
     public int currentTeam;
@@ -32,6 +34,8 @@ public class TurnControl : MonoBehaviour
     }
     void Start()
     {
+        PrimeCamera = Camera.main.gameObject;
+        cameraScripti = PrimeCamera.GetComponent<cameraScript>();
         Debug.Log("unit count " + units.Count);
         toimintolista = new int[units.Count, 3];
 		SortList();
@@ -70,11 +74,14 @@ public class TurnControl : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.C))
         {
+            if(readyTeams < teams){
+                readyTeams++;
+            }
             currentTeam ++;
             if(currentTeam>= teams){
                 currentTeam = 0;
             }
-            
+            cameraScripti.clearTargets();
             currentplayer = currentTeam;
         }
         if (exec)
