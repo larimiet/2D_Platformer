@@ -22,7 +22,7 @@ public class cameraScript : MonoBehaviour {
 		}
 		SmoothTime = 0.25f;
 		MinZoom = 5;
-		MaxZoom = 15;
+		MaxZoom = 12;
 	}
 	
 	// Update is called once per frame
@@ -31,7 +31,9 @@ public class cameraScript : MonoBehaviour {
 		targets = CTRL.targets;
 		MoveCamera();
 		Zoom();
+	
 	}
+
 	void MoveCamera(){
 		if(targets.Count == 0){
 			return;

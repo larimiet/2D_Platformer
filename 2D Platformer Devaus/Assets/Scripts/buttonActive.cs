@@ -25,7 +25,7 @@ public class buttonActive : MonoBehaviour {
 	// Update is called once per frame
 	public void getButtons () {
 		foreach(GameObject button in buttons){
-				turnController.toimintolista[CTRL.playerIndex, button.GetComponent<ButtonControl>().ButtonIndex] =button.GetComponent<ButtonControl>().sIndex;
+				turnController.toimintolista[CTRL.finalIndex, button.GetComponent<ButtonControl>().ButtonIndex] =button.GetComponent<ButtonControl>().sIndex;
 				button.GetComponent<ButtonControl>().sIndex = 0;
 			}
 		

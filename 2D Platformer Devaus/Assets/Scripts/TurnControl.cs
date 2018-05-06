@@ -15,14 +15,18 @@ public class TurnControl : MonoBehaviour
     public List<int> actionList = new List<int>();
     public int[,] toimintolista;
     public bool exec;
+    public int teams;
+    public int currentTeam;
     void Awake()
     {
         units = new List<GameObject>();
-
-        currentplayer = 0;
+        teams = 2;
+        
         actionPlayer = -1;
         exec = false;
         currentComp = 0;
+        currentTeam = 0;
+        currentplayer = currentTeam;
     }
     void Start()
     {
@@ -35,16 +39,13 @@ public class TurnControl : MonoBehaviour
 		}
     }
     // Update is called once per frame
-    void TurnShit()
-    {
-
-    }
+    
 	public void SortList(){
 		if (units.Count > 0)
         {
             units.Sort(delegate (GameObject a, GameObject b)
             {
-                return (a.GetComponent<PlayerScript>().playerIndex).CompareTo(b.GetComponent<PlayerScript>().playerIndex);
+                return (a.GetComponent<PlayerScript>().finalIndex).CompareTo(b.GetComponent<PlayerScript>().finalIndex);
             });
         }
 	}
@@ -53,7 +54,7 @@ public class TurnControl : MonoBehaviour
 
         if (currentplayer >= units.Count)
         {
-            currentplayer = 0;
+            currentplayer = currentTeam;
 
         }
         if (Input.GetKeyDown(KeyCode.X))
@@ -64,6 +65,15 @@ public class TurnControl : MonoBehaviour
             currentComp = 0;
             GetActions();
             SendAction();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            currentTeam ++;
+            if(currentTeam>= teams){
+                currentTeam = 0;
+            }
+            
+            currentplayer = currentTeam;
         }
         if (exec)
         {
@@ -76,15 +86,15 @@ public class TurnControl : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            currentplayer++;
+            currentplayer+= teams;
         }
 
     }
     public void SortByIndex(int index)
     {
         foreach(GameObject unit in units){
-			if(unit.GetComponent<PlayerScript>().playerIndex > index){
-				unit.GetComponent<PlayerScript>().playerIndex--;
+			if(unit.GetComponent<PlayerScript>().finalIndex > index){
+				unit.GetComponent<PlayerScript>().finalIndex--;
 			}
 		}
     }
@@ -101,6 +111,7 @@ public class TurnControl : MonoBehaviour
         //units[actionPlayer].GetComponent<PlayerScript>().state = PlayerScript.MovePhase.executing;
         if (actionPlayer == units.Count)
         {
+            EndTurn();
             actionPlayer = 0;
             currentComp++;
         }
@@ -116,15 +127,19 @@ public class TurnControl : MonoBehaviour
             foreach (GameObject unit in units)
             {
                 //Debug.Log(actionPlayer+","+currentComp+","+toimintolista[actionPlayer,currentComp]);
-                if (unit.GetComponent<PlayerScript>().playerIndex == actionPlayer)
+                if (unit.GetComponent<PlayerScript>().finalIndex == actionPlayer)
                 {
 
                     unit.GetComponent<PlayerScript>().TurnStart(toimintolista[actionPlayer, currentComp]);
                 }
             }
         }
-
-
+        
     }
+    public void EndTurn(){
+            foreach(GameObject unit in units){
+                unit.GetComponent<PlayerScript>().turnEnd();
+            }
+        }
 
 }

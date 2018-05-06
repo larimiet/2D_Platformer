@@ -28,14 +28,17 @@ public class PlayerScript : MonoBehaviour
     public GameObject ammoPrefab;
     public float shootingRange = 8;
     public int actionLocal;
-    public GameObject cameraFollow;
-
+    //public GameObject cameraFollow;
+    public bool crouchbool;
     public bool performFallDown = false;
     public Vector2 targetPos;
-
+    int teamAmount;
+    public int TeamID;
+    public int finalIndex;
     void Start()
     {
-        //Initialize all critical variables
+        
+        
         speed = 10;
         controller = GameObject.FindGameObjectWithTag("GameController");
         turnCRTL = controller.GetComponent<TurnControl>();
@@ -49,9 +52,14 @@ public class PlayerScript : MonoBehaviour
         suunta = 1;
         target = transform.position;
         airtime = -1;
-        cameraFollow = GameObject.FindGameObjectWithTag("CameraFollow");
-
+        //cameraFollow = GameObject.FindGameObjectWithTag("CameraFollow");
+        crouchbool = false;
+        teamAmount = turnCRTL.teams;
+        finalIndex = playerIndex*(GameObject.FindGameObjectsWithTag("Player").Length / teamAmount) +TeamID;
+        //Initialize all critical variables
+        Debug.Log(gameObject.name+ " " +finalIndex);
     }
+
     //Tells the player to start the turn and what to do
     public void TurnStart(int action)
     {
@@ -161,7 +169,7 @@ public class PlayerScript : MonoBehaviour
         }
         if (state == MovePhase.EndTurn)
         {
-            turnEnd();
+            turnNext();
         }
         if (state == MovePhase.waiting && !turnCRTL.exec)
         {
@@ -188,7 +196,7 @@ public class PlayerScript : MonoBehaviour
         }
     }
     //ENds turn and sends action to next player if needed
-    void turnEnd()
+    void turnNext()
     {
         //If execution is on, send action to the next player
         if (turnCRTL.exec == true)
@@ -200,11 +208,15 @@ public class PlayerScript : MonoBehaviour
         state = MovePhase.waiting;
 
     }
-
+    public void turnEnd(){
+        if (crouchbool){
+            unCrouch();
+        }
+    }
     void Update()
     {
         //Handles activation and deactivation of buttons when player is inactive
-        if (playerIndex != turnCRTL.currentplayer)
+        if (finalIndex != turnCRTL.currentplayer)
         {
 
             foreach (Transform child in transform)
@@ -223,7 +235,7 @@ public class PlayerScript : MonoBehaviour
                 if (child.tag == "ButtonControl")
                 {
                     child.gameObject.GetComponent<buttonActive>().buttonState(true);
-                    cameraFollow.transform.position = transform.position;
+                    //cameraFollow.transform.position = transform.position;
                 }
             }
 
@@ -237,7 +249,7 @@ public class PlayerScript : MonoBehaviour
         turnCRTL.targets.Remove(transform);
         Debug.Log("DIED");
         turnCRTL.units.Remove(gameObject);
-        turnCRTL.SortByIndex(playerIndex);
+        turnCRTL.SortByIndex(finalIndex);
         turnCRTL.SortList();
         GameObject.Destroy(gameObject);
     }
@@ -255,9 +267,14 @@ public class PlayerScript : MonoBehaviour
 
     void crouch()
     {
+        crouchbool = true;
         anim.SetInteger("CrouchControl", 1);
         //Courching code TODO: Implement crouching
         //transform.localScale = new Vector3(transform.localScale.x, 0.5f, 1);
+    }
+    void unCrouch(){
+        crouchbool = false;
+        anim.SetInteger("CrouchControl", 3);
     }
     void FixedUpdate()
     {
