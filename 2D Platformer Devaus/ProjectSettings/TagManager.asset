@@ -11,6 +11,8 @@ TagManager:
   - Ground
   - ButtonControl
   - CameraFollow
+  - ElevatorTop
+  - ElevatorBottom
   layers:
   - Default
   - TransparentFX
@@ -22,8 +24,8 @@ TagManager:
   - 
   - Ground
   - DeathLayer
-  - 
-  - 
+  - ElevatorTop
+  - ElevatorBottom
   - 
   - 
   - 
