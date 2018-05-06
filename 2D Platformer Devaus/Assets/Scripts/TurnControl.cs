@@ -17,16 +17,18 @@ public class TurnControl : MonoBehaviour
     public bool exec;
     public int teams;
     public int currentTeam;
+    int readyTeams;
     void Awake()
     {
         units = new List<GameObject>();
         teams = 2;
-        
+        readyTeams = 0;
         actionPlayer = -1;
         exec = false;
         currentComp = 0;
         currentTeam = 0;
         currentplayer = currentTeam;
+        
     }
     void Start()
     {
@@ -57,7 +59,7 @@ public class TurnControl : MonoBehaviour
             currentplayer = currentTeam;
 
         }
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X)&&readyTeams >= teams-1)
         {
             actionPlayer = -1;
             exec = true;
