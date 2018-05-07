@@ -369,6 +369,7 @@ public class PlayerScript : MonoBehaviour
     {
 
         transform.position = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0);
+        target = transform.position;
     }
     public void FallDown(float spd)
     {
