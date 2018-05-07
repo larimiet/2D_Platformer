@@ -23,7 +23,7 @@ public class PlayerScript : MonoBehaviour
     public int playerIndex;
     public Vector2 Liikkuvuus;
     public TurnControl turnCRTL;
-    public bool CanMove;
+    private bool CanMove;
     public bool IsDead;
     public GameObject ammoPrefab;
     public float shootingRange = 8;
@@ -117,7 +117,7 @@ public class PlayerScript : MonoBehaviour
     void TurnLogic()
     {
         isGrounded = CollisionCheck(transform.position, Vector2.down, 1, groundLayer);
-        CanMove = !CollisionCheck(transform.position - new Vector3(0, 0.25f, 0), Vector2.right * suunta, 0.5f, groundLayer) && !CollisionCheck(transform.position + new Vector3(0, 0.25f, 0), Vector2.right * suunta, 0.5f, groundLayer);
+        CanMove = !CollisionCheck(transform.position - new Vector3(0, 0.25f, 0), (Vector2.right * suunta)*1.1f, 0.5f, groundLayer) && !CollisionCheck(transform.position + new Vector3(0, 0.25f, 0), (Vector2.right * suunta)*1.1f, 0.5f, groundLayer);
         IsDead = CollisionCheck(transform.position, Vector2.down, 1, DeathLayer);
         //Debug.Log("CanMove: "+ CanMove+ " Player: "+ playerIndex);
         if (IsDead)
@@ -162,7 +162,7 @@ public class PlayerScript : MonoBehaviour
         {
             gravity(Liikkuvuus);
         }
-        if (!CanMove && !performFallDown)
+        if (!CanMove && !performFallDown&& state == MovePhase.executing)
         {
             GoToGrid();
             state = MovePhase.EndTurn;
@@ -203,7 +203,7 @@ public class PlayerScript : MonoBehaviour
         {
             turnCRTL.SendAction();
         }
-       // Debug.Log("TurnEnded " + playerIndex);
+        Debug.Log("TurnEnded " + finalIndex);
         //sets self to wait
         state = MovePhase.waiting;
 
