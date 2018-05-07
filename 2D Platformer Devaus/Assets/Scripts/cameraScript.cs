@@ -72,7 +72,12 @@ public class cameraScript : MonoBehaviour {
 	}
 	void Zoom(){
 		
-		Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,(GetGreatestDistance()/2) *zoomRatio , SmoothTime);
+		if(targets.Count <= 1){
+			Camera.main.orthographicSize = MinZoom;
+		}else{
+			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,(GetGreatestDistance()/2) *zoomRatio , SmoothTime);
+		}
+		
 	}
 	float GetGreatestDistance(){
 		Bounds Koko = new Bounds(targets[0].position, Vector3.zero);
