@@ -216,7 +216,7 @@ public class PlayerScript : MonoBehaviour
     void Update()
     {
         //Handles activation and deactivation of buttons when player is inactive
-        if (finalIndex != turnCRTL.currentplayer)
+        if (gameObject != turnCRTL.player)
         {
 
             foreach (Transform child in transform)

@@ -16,10 +16,13 @@ public class TurnControl : MonoBehaviour
     public List<int> actionList = new List<int>();
     public int[,] toimintolista;
     public cameraScript cameraScripti;
+    public List<int> shootPlayer = new List<int>(); 
     public bool exec;
     public int teams;
     public int currentTeam;
     int readyTeams;
+    public List<GameObject> team1 = new List<GameObject>();
+    
     void Awake()
     {
         units = new List<GameObject>();
@@ -58,11 +61,13 @@ public class TurnControl : MonoBehaviour
     void Update()
     {
 
-        if (currentplayer >= units.Count)
-        {
-            currentplayer = currentTeam;
-
-        }
+        foreach(GameObject unit in GameObject.FindGameObjectsWithTag("Player")){
+			if(unit.GetComponent<PlayerScript>().TeamID == currentTeam&&!team1.Contains(unit)){
+                team1.Add(unit);
+            }
+			
+		}
+        
         if (Input.GetKeyDown(KeyCode.X)&&readyTeams >= teams-1)
         {
             currentTeam = -1;
@@ -73,6 +78,16 @@ public class TurnControl : MonoBehaviour
             GetActions();
             SendAction();
         }
+        
+        if (exec)
+        {
+            player = units[actionPlayer];
+
+        }
+        else
+        {
+            player = team1[currentplayer];
+        }
         if (Input.GetKeyDown(KeyCode.C))
         {
             if(readyTeams < teams){
@@ -82,23 +97,19 @@ public class TurnControl : MonoBehaviour
             if(currentTeam>= teams){
                 currentTeam = 0;
             }
+            team1.Clear();
             cameraScripti.clearTargets();
             currentplayer = currentTeam;
         }
-        if (exec)
-        {
-            player = units[actionPlayer];
-
-        }
-        else
-        {
-            player = units[currentplayer];
-        }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            currentplayer+= teams;
+            currentplayer+= 1;
         }
+        if (currentplayer >= team1.Count)
+        {
+            currentplayer = 0;
 
+        }
     }
     public void SortByIndex(int index)
     {
@@ -121,13 +132,24 @@ public class TurnControl : MonoBehaviour
         actionPlayer++;
         
         //units[actionPlayer].GetComponent<PlayerScript>().state = PlayerScript.MovePhase.executing;
-        if (actionPlayer == units.Count)
+        if (actionPlayer >= units.Count&&shootPlayer.Count == 0)
         {
             EndTurn();
             actionPlayer = 0;
             currentComp++;
+        }if(actionPlayer >= units.Count&& shootPlayer.Count != 0){
+            foreach (GameObject unit in units)
+            {
+                //Debug.Log(actionPlayer+","+currentComp+","+toimintolista[actionPlayer,currentComp]);
+                if (unit.GetComponent<PlayerScript>().finalIndex == shootPlayer[0])
+                {
+                     
+                    unit.GetComponent<PlayerScript>().TurnStart(8);
+                }
+            }
+            shootPlayer.RemoveAt(0);
         }
-        if (currentComp > 2)
+        if (currentComp > 2&&shootPlayer.Count==0)
         {
             exec = false;
             actionPlayer = -1;
@@ -138,6 +160,11 @@ public class TurnControl : MonoBehaviour
         }
         if (exec)
         {
+            if(toimintolista[actionPlayer, currentComp] == 8){
+                shootPlayer.Add(actionPlayer);
+                actionPlayer++;
+
+            }
             foreach (GameObject unit in units)
             {
                 //Debug.Log(actionPlayer+","+currentComp+","+toimintolista[actionPlayer,currentComp]);
@@ -151,6 +178,7 @@ public class TurnControl : MonoBehaviour
         }
         
     }
+    
     public void EndTurn(){
             foreach(GameObject unit in units){
                 unit.GetComponent<PlayerScript>().turnEnd();
