@@ -13,6 +13,7 @@ TagManager:
   - CameraFollow
   - ElevatorTop
   - ElevatorBottom
+  - Elevator
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - ElevatorTop
   - ElevatorBottom
   - Player
-  - 
+  - Elevator
   - 
   - 
   - 

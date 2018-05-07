@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class ElevatorVertical : MonoBehaviour
 {
-    // 1 = elvator goes up, -1 = elevator goes down.
+    // 1 = elvator goes up, 2 = elevator goes down.
     public int upOrDown = 1;
     public bool setUpOrDown = true;
     public LayerMask top;
     public LayerMask bottom;
     public Vector2 targetPos;
+    public Vector2 targetPosUp;
+    public Vector2 targetPosDown;
     public Vector2 currentPos;
     public GameObject passenger;
     public float speed = 10;
@@ -19,6 +21,26 @@ public class ElevatorVertical : MonoBehaviour
     {
         top = LayerMask.GetMask("ElevatorTop");
         bottom = LayerMask.GetMask("ElevatorBottom");
+        RaycastHit2D hitUp = Physics2D.Raycast(new Vector2(transform.position.x,
+          transform.position.y + 1.05f), transform.up);
+        if (hitUp.collider != null)
+        {
+            if (hitUp.collider.gameObject.tag == ("ElevatorTop") || hitUp.collider.gameObject.tag == ("ElevatorBottom"))
+            {
+                targetPosUp = (new Vector2(hitUp.collider.transform.position.x,
+                hitUp.collider.transform.position.y));
+            }
+        }
+        RaycastHit2D hitDown = Physics2D.Raycast(new Vector2(transform.position.x,
+         transform.position.y - 1.05f), -transform.up);
+        if (hitDown.collider != null)
+        {
+            if (hitDown.collider.gameObject.tag == ("ElevatorTop") || hitDown.collider.gameObject.tag == ("ElevatorBottom"))
+            {
+                targetPosDown = (new Vector2(hitDown.collider.transform.position.x,
+                hitDown.collider.transform.position.y));
+            }
+        }
     }
 
     bool TrackEnd(Vector2 pos, Vector2 dir, float distance, LayerMask layer)
@@ -36,8 +58,14 @@ public class ElevatorVertical : MonoBehaviour
     private void Update()
     {
         currentPos = new Vector2(transform.position.x, transform.position.y);
+        if (upOrDown == 1)
+            targetPos = targetPosUp;
+        if (upOrDown == 2)
+            targetPos = targetPosDown;
+        if (upOrDown > 2)
+            upOrDown = 0;
 
-        if(TrackEnd(transform.position, Vector2.up, 0, top))
+        if (TrackEnd(transform.position, Vector2.up, 0, top))
         {
             print("im at top");
         }
@@ -61,14 +89,23 @@ public class ElevatorVertical : MonoBehaviour
 
         RaycastHit2D hitPlayer = Physics2D.Raycast(new Vector2(transform.position.x,
            transform.position.y + 1.05f), transform.up);
-        if (hit.collider != null)
+        if (hitPlayer.collider != null)
         {
             if (hitPlayer.collider.gameObject.tag == ("Player"))
             {
                 passenger = hitPlayer.collider.gameObject;
+                if (setUpOrDown)
+                {
+                    upOrDown += 1;
+                    setUpOrDown = false;
+                }
+            }
+            else
+            {if(currentPos == targetPos)
+                setUpOrDown = true;
             }
         }
-        if (hit.collider == null)
+        if (hitPlayer.collider == null)
         {
                 passenger = null;
         }
