@@ -392,6 +392,15 @@ Tilemap:
       m_ObjectToInstantiate: {fileID: 0}
       m_TileFlags: 1
       m_ColliderType: 1
+  - first: {x: 15, y: -2, z: 0}
+    second:
+      m_TileIndex: 0
+      m_TileSpriteIndex: 0
+      m_TileMatrixIndex: 0
+      m_TileColorIndex: 0
+      m_ObjectToInstantiate: {fileID: 0}
+      m_TileFlags: 1
+      m_ColliderType: 1
   - first: {x: -5, y: -1, z: 0}
     second:
       m_TileIndex: 0
@@ -439,13 +448,13 @@ Tilemap:
       m_ColliderType: 1
   m_AnimatedTiles: {}
   m_TileAssetArray:
-  - m_RefCount: 27
+  - m_RefCount: 28
     m_Data: {fileID: 11400000, guid: 03f181a0b8e8a744893c9c0dcc87fb0d, type: 2}
   m_TileSpriteArray:
-  - m_RefCount: 27
+  - m_RefCount: 28
     m_Data: {fileID: 21300000, guid: 27ef6fe789eb1e440b4803a02f64ce86, type: 3}
   m_TileMatrixArray:
-  - m_RefCount: 27
+  - m_RefCount: 28
     m_Data:
       e00: 1
       e01: 0
@@ -464,7 +473,7 @@ Tilemap:
       e32: 0
       e33: 1
   m_TileColorArray:
-  - m_RefCount: 27
+  - m_RefCount: 28
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_AnimationFrameRate: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -548,7 +557,12 @@ Prefab:
     - target: {fileID: 114110987334502886, guid: e612aa612a0721a4fb19f1f05c9249ab,
         type: 2}
       propertyPath: playerIndex
-      value: 3
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114110987334502886, guid: e612aa612a0721a4fb19f1f05c9249ab,
+        type: 2}
+      propertyPath: TeamID
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e612aa612a0721a4fb19f1f05c9249ab, type: 2}
@@ -641,8 +655,12 @@ MonoBehaviour:
   currentComp: 0
   targets: []
   units: []
+  PrimeCamera: {fileID: 0}
   actionList: 
+  cameraScripti: {fileID: 0}
   exec: 0
+  teams: 0
+  currentTeam: 0
 --- !u!1001 &877720424
 Prefab:
   m_ObjectHideFlags: 0
@@ -689,7 +707,12 @@ Prefab:
     - target: {fileID: 114110987334502886, guid: e612aa612a0721a4fb19f1f05c9249ab,
         type: 2}
       propertyPath: playerIndex
-      value: 2
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114110987334502886, guid: e612aa612a0721a4fb19f1f05c9249ab,
+        type: 2}
+      propertyPath: TeamID
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e612aa612a0721a4fb19f1f05c9249ab, type: 2}
@@ -738,6 +761,11 @@ Prefab:
       propertyPath: controller
       value: 
       objectReference: {fileID: 728456536}
+    - target: {fileID: 114110987334502886, guid: e612aa612a0721a4fb19f1f05c9249ab,
+        type: 2}
+      propertyPath: TeamID
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e612aa612a0721a4fb19f1f05c9249ab, type: 2}
   m_IsPrefabParent: 0
@@ -841,6 +869,7 @@ MonoBehaviour:
   SmoothTime: 0
   MinZoom: 0
   MaxZoom: 0
+  zoomRatio: 0
 --- !u!1 &1251988828 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1287599135987950, guid: e612aa612a0721a4fb19f1f05c9249ab,
@@ -855,11 +884,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4674203667181924, guid: e612aa612a0721a4fb19f1f05c9249ab, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4674203667181924, guid: e612aa612a0721a4fb19f1f05c9249ab, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4674203667181924, guid: e612aa612a0721a4fb19f1f05c9249ab, type: 2}
       propertyPath: m_LocalPosition.z
@@ -898,6 +927,11 @@ Prefab:
         type: 2}
       propertyPath: playerIndex
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114110987334502886, guid: e612aa612a0721a4fb19f1f05c9249ab,
+        type: 2}
+      propertyPath: TeamID
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e612aa612a0721a4fb19f1f05c9249ab, type: 2}
