@@ -44,9 +44,14 @@ public class cameraScript : MonoBehaviour {
 	void FixedUpdate () {
 		player = CTRL.player;
 		foreach(GameObject unit in GameObject.FindGameObjectsWithTag("Player")){
-			if(unit.GetComponent<PlayerScript>().TeamID == CTRL.currentTeam&&!targets.Contains(unit.transform)){
+			if(CTRL.currentTeam != -1){
+				if(unit.GetComponent<PlayerScript>().TeamID == CTRL.currentTeam&&!targets.Contains(unit.transform)){
 				targets.Add(unit.transform);
 			}
+			}else if(!targets.Contains(unit.transform)){
+				targets.Add(unit.transform);
+			}
+			
 		}
 		MoveCamera(getCenterPoint());
 		MaxZoom = GetGreatestDistance();

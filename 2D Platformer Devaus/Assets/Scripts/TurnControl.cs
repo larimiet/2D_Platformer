@@ -65,6 +65,7 @@ public class TurnControl : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.X)&&readyTeams >= teams-1)
         {
+            currentTeam = -1;
             actionPlayer = -1;
             exec = true;
             currentplayer = -1;
@@ -116,7 +117,9 @@ public class TurnControl : MonoBehaviour
     }
     public void SendAction()
     {
+       
         actionPlayer++;
+        
         //units[actionPlayer].GetComponent<PlayerScript>().state = PlayerScript.MovePhase.executing;
         if (actionPlayer == units.Count)
         {
@@ -130,6 +133,8 @@ public class TurnControl : MonoBehaviour
             actionPlayer = -1;
             currentplayer = 0;
             Array.Clear(toimintolista, 0, toimintolista.Length);
+            currentTeam = 0;
+            cameraScripti.clearTargets();
         }
         if (exec)
         {
@@ -138,10 +143,11 @@ public class TurnControl : MonoBehaviour
                 //Debug.Log(actionPlayer+","+currentComp+","+toimintolista[actionPlayer,currentComp]);
                 if (unit.GetComponent<PlayerScript>().finalIndex == actionPlayer)
                 {
-
+                     
                     unit.GetComponent<PlayerScript>().TurnStart(toimintolista[actionPlayer, currentComp]);
                 }
             }
+            Debug.Log("Started turn player: "+actionPlayer+","+ toimintolista[actionPlayer, currentComp]+ ","+ currentComp);
         }
         
     }
