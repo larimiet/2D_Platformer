@@ -12,6 +12,7 @@ public class PlayerScript : MonoBehaviour
     //important variables
     public GameObject controller;
     public LayerMask groundLayer;
+    //public LayerMask elevatorLayer;
     public LayerMask DeathLayer;
     public Animator anim;
     public Vector2 target;
@@ -35,6 +36,7 @@ public class PlayerScript : MonoBehaviour
     int teamAmount;
     public int TeamID;
     public int finalIndex;
+    public bool inElevator;
     void Start()
     {
         
@@ -49,6 +51,7 @@ public class PlayerScript : MonoBehaviour
         Liikkuvuus = Vector2.zero;
         IsDead = false;
         groundLayer = LayerMask.GetMask("Ground");
+        //elevatorLayer = LayerMask.GetMask("Elevator");
         suunta = 1;
         target = transform.position;
         airtime = -1;
@@ -117,6 +120,7 @@ public class PlayerScript : MonoBehaviour
     void TurnLogic()
     {
         isGrounded = CollisionCheck(transform.position, Vector2.down, 1, groundLayer);
+        //inElevator = CollisionCheck(transform.position, Vector2.down, 1, elevatorLayer);
         CanMove = !CollisionCheck(transform.position - new Vector3(0, 0.25f, 0), (Vector2.right * suunta)*1.1f, 0.5f, groundLayer) && !CollisionCheck(transform.position + new Vector3(0, 0.25f, 0), (Vector2.right * suunta)*1.1f, 0.5f, groundLayer);
         IsDead = CollisionCheck(transform.position, Vector2.down, 1, DeathLayer);
         //Debug.Log("CanMove: "+ CanMove+ " Player: "+ playerIndex);
@@ -175,7 +179,24 @@ public class PlayerScript : MonoBehaviour
         {
             state = MovePhase.Plan;
         }
-        if (!isGrounded && !performFallDown && state == MovePhase.Plan)
+        RaycastHit2D hitElevator = Physics2D.Raycast(new Vector2(transform.position.x,
+          transform.position.y - 1.05f), -transform.up);
+        if (hitElevator.collider != null)
+        {
+            if (hitElevator.collider.gameObject.tag == ("Elevator"))
+            {
+                inElevator = true;
+            }
+            else
+            {
+                inElevator = false;
+            }
+        }
+        if (hitElevator.collider == null)
+        {
+            inElevator = false;
+        }
+        if (!isGrounded && !performFallDown && state == MovePhase.Plan && !inElevator)
         {
             RaycastHit2D hit = Physics2D.Raycast(new Vector2(transform.position.x,
             transform.position.y - 1.05f), -transform.up);
@@ -373,7 +394,7 @@ public class PlayerScript : MonoBehaviour
     }
     public void FallDown(float spd)
     {
-        if (transform.position.y < targetPos.y - speed / 20 || transform.position.y > targetPos.y + speed / 20)
+        if (transform.position.y < targetPos.y - 0.5 || transform.position.y > targetPos.y + 0.5)
         {
             transform.Translate(new Vector2(0, -spd * Time.deltaTime));
         }

@@ -11,6 +11,7 @@ public class ElevatorVertical : MonoBehaviour
     public LayerMask bottom;
     public Vector2 targetPos;
     public Vector2 currentPos;
+    public GameObject passenger;
     public float speed = 10;
 
 	// Use this for initialization
@@ -57,14 +58,29 @@ public class ElevatorVertical : MonoBehaviour
                 print("top above");
             }
         }
-        else
+
+        RaycastHit2D hitPlayer = Physics2D.Raycast(new Vector2(transform.position.x,
+           transform.position.y + 1.05f), transform.up);
+        if (hit.collider != null)
         {
-            print("else");
+            if (hitPlayer.collider.gameObject.tag == ("Player"))
+            {
+                passenger = hitPlayer.collider.gameObject;
+            }
+        }
+        if (hit.collider == null)
+        {
+                passenger = null;
         }
     }
 
    public void Move()
     {
         transform.position = Vector2.MoveTowards(transform.position, targetPos, 0.2f * speed * Time.deltaTime);
+        if(passenger != null)
+        {
+            passenger.transform.position = new Vector2(transform.position.x, transform.position.y + 1.5f);
+            passenger.GetComponent<PlayerScript>().targetPos = new Vector2(transform.position.x, transform.position.y + 1.5f);
+        }
     }
 }

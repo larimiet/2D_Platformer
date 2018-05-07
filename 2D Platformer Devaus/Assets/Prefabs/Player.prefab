@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 61112819062869614}
   - component: {fileID: 114110987334502886}
   - component: {fileID: 95616400552151086}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -608,7 +608,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1287599135987950}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: -2, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4039244914876708}
@@ -921,6 +921,8 @@ MonoBehaviour:
   shootingRange: 8
   actionLocal: 0
   cameraFollow: {fileID: 0}
+  performFallDown: 0
+  targetPos: {x: 0, y: 0}
 --- !u!114 &114389418427343322
 MonoBehaviour:
   m_ObjectHideFlags: 1
