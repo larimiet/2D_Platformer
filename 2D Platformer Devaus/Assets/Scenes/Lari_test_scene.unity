@@ -418,9 +418,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   targetPos: {x: 0, y: 0}
+  targetPosUp: {x: 0, y: 0}
+  targetPosDown: {x: 0, y: 0}
   currentPos: {x: 0, y: 0}
   passenger: {fileID: 0}
-  speed: 10
+  speed: 50
 --- !u!1001 &992810382
 Prefab:
   m_ObjectHideFlags: 0

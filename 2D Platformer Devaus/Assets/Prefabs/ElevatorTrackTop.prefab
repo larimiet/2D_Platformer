@@ -132,9 +132,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4308014279024012}
   - component: {fileID: 61505033913713184}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: ElevatorTrackTop
-  m_TagString: Untagged
+  m_TagString: ElevatorTop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -185,7 +185,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1660814696860684}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5, y: 0.5, z: 0}
+  m_LocalPosition: {x: -1, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4961861019597900}

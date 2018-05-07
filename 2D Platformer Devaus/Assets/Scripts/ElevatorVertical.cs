@@ -63,7 +63,7 @@ public class ElevatorVertical : MonoBehaviour
         if (upOrDown == 2)
             targetPos = targetPosDown;
         if (upOrDown > 2)
-            upOrDown = 0;
+            upOrDown = 1;
 
         if (TrackEnd(transform.position, Vector2.up, 0, top))
         {
