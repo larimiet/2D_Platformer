@@ -42,6 +42,18 @@ public class ButtonControl : MonoBehaviour
             }
 
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (sIndex > 0)
+            {
+                sIndex = sIndex - 1;
+            }
+            else if (sIndex == 0)
+            {
+                sIndex =spritePool.Length-1;
+            }
+
+        }
     }
     void Update()
     {

@@ -249,7 +249,7 @@ public class PlayerScript : MonoBehaviour
 
             }
         }
-        else
+        else if(!turnCRTL.exec)
         {
             foreach (Transform child in transform)
             {
