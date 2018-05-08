@@ -132,24 +132,13 @@ public class TurnControl : MonoBehaviour
         actionPlayer++;
         
         //units[actionPlayer].GetComponent<PlayerScript>().state = PlayerScript.MovePhase.executing;
-        if (actionPlayer >= units.Count&&shootPlayer.Count == 0)
+        if (actionPlayer >= units.Count)
         {
             EndTurn();
             actionPlayer = 0;
             currentComp++;
-        }if(actionPlayer >= units.Count&& shootPlayer.Count != 0){
-            foreach (GameObject unit in units)
-            {
-                //Debug.Log(actionPlayer+","+currentComp+","+toimintolista[actionPlayer,currentComp]);
-                if (unit.GetComponent<PlayerScript>().finalIndex == shootPlayer[0])
-                {
-                     
-                    unit.GetComponent<PlayerScript>().TurnStart(8);
-                }
-            }
-            shootPlayer.RemoveAt(0);
         }
-        if (currentComp > 2&&shootPlayer.Count==0)
+        if (currentComp > 2)
         {
             exec = false;
             actionPlayer = -1;
@@ -160,11 +149,7 @@ public class TurnControl : MonoBehaviour
         }
         if (exec)
         {
-            if(toimintolista[actionPlayer, currentComp] == 8){
-                shootPlayer.Add(actionPlayer);
-                actionPlayer++;
-
-            }
+            
             foreach (GameObject unit in units)
             {
                 //Debug.Log(actionPlayer+","+currentComp+","+toimintolista[actionPlayer,currentComp]);
