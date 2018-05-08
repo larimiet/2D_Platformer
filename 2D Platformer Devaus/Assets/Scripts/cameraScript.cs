@@ -14,11 +14,13 @@ public class cameraScript : MonoBehaviour {
 	private Vector3 offset;
 	// Use this for initialization
 	float sensitivity;
+	public GameObject backGround;
 	public float zoomRatio;
 	void Start () {
 		control = GameObject.FindGameObjectWithTag("GameController");
 		CTRL = control.GetComponent<TurnControl>();
 		offset = new Vector3(0,0,-1);
+		backGround = GameObject.FindGameObjectWithTag("Background");
 		foreach (GameObject item in CTRL.units){
 			targets.Add(item.transform);
 		}
@@ -56,7 +58,7 @@ public class cameraScript : MonoBehaviour {
 		MoveCamera(getCenterPoint());
 		MaxZoom = GetGreatestDistance();
 		Zoom();
-		
+		backGround.transform.position = gameObject.transform.position *0.5f;
 	}
 	public void clearTargets(){
 		targets.Clear();
