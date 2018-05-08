@@ -13,6 +13,7 @@ public class cameraScript : MonoBehaviour {
 	public float MaxZoom;
 	private Vector3 offset;
 	// Use this for initialization
+	bool zoomBool;
 	float sensitivity;
 	public GameObject backGround;
 	public float zoomRatio;
@@ -25,7 +26,7 @@ public class cameraScript : MonoBehaviour {
 			targets.Add(item.transform);
 		}
 		SmoothTime = 0.25f;
-		MinZoom = 5;
+		MinZoom = 2;
 		zoomRatio = 1.1f;
 		sensitivity = 0.05f;
 	}
@@ -41,11 +42,15 @@ public class cameraScript : MonoBehaviour {
 		}else{
 			zoomRatio = 1.49f;
 		}
-		
+		if(Input.GetKeyDown(KeyCode.Z)){
+			zoomBool = !zoomBool;
+			targets.Clear();
+		}
 	}
 	void FixedUpdate () {
 		player = CTRL.player;
-		foreach(GameObject unit in GameObject.FindGameObjectsWithTag("Player")){
+		if(!zoomBool){
+			foreach(GameObject unit in GameObject.FindGameObjectsWithTag("Player")){
 			if(CTRL.currentTeam != -1){
 				if(unit.GetComponent<PlayerScript>().TeamID == CTRL.currentTeam&&!targets.Contains(unit.transform)){
 				targets.Add(unit.transform);
@@ -55,6 +60,12 @@ public class cameraScript : MonoBehaviour {
 			}
 			
 		}
+		}else{
+			if(!targets.Contains(player.transform)){
+				targets.Add(player.transform);
+			}
+		}
+		
 		MoveCamera(getCenterPoint());
 		MaxZoom = GetGreatestDistance();
 		Zoom();
