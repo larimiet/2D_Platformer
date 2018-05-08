@@ -13,6 +13,7 @@ public class cameraScript : MonoBehaviour {
 	public float MaxZoom;
 	private Vector3 offset;
 	// Use this for initialization
+	int vertical;
 	bool zoomBool;
 	float sensitivity;
 	public GameObject backGround;
@@ -26,6 +27,7 @@ public class cameraScript : MonoBehaviour {
 			targets.Add(item.transform);
 		}
 		SmoothTime = 0.25f;
+		vertical = 2;
 		MinZoom = 2;
 		zoomRatio = 1.1f;
 		sensitivity = 0.05f;
@@ -85,10 +87,10 @@ public class cameraScript : MonoBehaviour {
 	}
 	void Zoom(){
 		
-		if(targets.Count <= 1){
-			Camera.main.orthographicSize = MinZoom;
+		if(Camera.main.orthographicSize >MinZoom){
+			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,(GetGreatestDistance()/vertical) *zoomRatio , SmoothTime);
 		}else{
-			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize,(GetGreatestDistance()/2) *zoomRatio , SmoothTime);
+			Camera.main.orthographicSize = MinZoom;
 		}
 		
 	}
@@ -97,7 +99,16 @@ public class cameraScript : MonoBehaviour {
 		foreach(Transform item in targets){
 			Koko.Encapsulate(item.position);
 		}
-		return Koko.size.x;
+		if(Koko.size.x > Koko.size.y){
+			vertical = 2;
+			return Koko.size.x;
+			
+		}
+		else{
+			vertical = 1;
+			return Koko.size.y;
+			
+		}
 	}
 	Vector3 getCenterPoint(){
 		if(targets.Count == 0){
