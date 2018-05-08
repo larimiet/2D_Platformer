@@ -88,7 +88,7 @@ public class ElevatorVertical : MonoBehaviour
         }
 
         RaycastHit2D hitPlayer = Physics2D.Raycast(new Vector2(transform.position.x,
-           transform.position.y + 1.05f), transform.up);
+           transform.position.y + 1.05f), -transform.up);
         if (hitPlayer.collider != null)
         {
             if (hitPlayer.collider.gameObject.tag == ("Player"))
