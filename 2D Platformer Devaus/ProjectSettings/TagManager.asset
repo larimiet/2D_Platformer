@@ -15,6 +15,7 @@ TagManager:
   - ElevatorBottom
   - Elevator
   - Background
+  - MainMenu
   layers:
   - Default
   - TransparentFX
