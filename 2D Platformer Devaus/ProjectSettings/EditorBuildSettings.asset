@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Valtteri_test_scene.unity
-    guid: fff183d939ccb974f9ac38e1d0b83930
+    path: Assets/Scenes/Main menu.unity
+    guid: 8303f1d4677c8a049a3673d1fe4e1b31
+  - enabled: 1
+    path: Assets/Scenes/Playable_Scene.unity
+    guid: 658b6cb22cccdb64a9b9e75b1e2c5909
   m_configObjects: {}

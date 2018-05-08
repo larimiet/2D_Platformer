@@ -40,7 +40,7 @@ public class TurnControl : MonoBehaviour
         PrimeCamera = Camera.main.gameObject;
         cameraScripti = PrimeCamera.GetComponent<cameraScript>();
         Debug.Log("unit count " + units.Count);
-        toimintolista = new int[units.Count, 3];
+        toimintolista = new int[128, 3];
 		SortList();
         
 		foreach(GameObject unit in units ){

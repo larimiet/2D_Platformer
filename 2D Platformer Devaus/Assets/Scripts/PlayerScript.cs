@@ -52,7 +52,9 @@ public class PlayerScript : MonoBehaviour
         IsDead = false;
         groundLayer = LayerMask.GetMask("Ground");
         //elevatorLayer = LayerMask.GetMask("Elevator");
-        suunta = 1;
+        Vector3 theScale = transform.localScale;
+        theScale.x *= suunta;
+        transform.localScale = theScale;
         target = transform.position;
         airtime = -1;
         //cameraFollow = GameObject.FindGameObjectWithTag("CameraFollow");
@@ -119,11 +121,18 @@ public class PlayerScript : MonoBehaviour
     //Handles all the turn logic
     void TurnLogic()
     {
+        
         isGrounded = CollisionCheck(transform.position, Vector2.down, 1, groundLayer);
         //inElevator = CollisionCheck(transform.position, Vector2.down, 1, elevatorLayer);
         CanMove = !CollisionCheck(transform.position - new Vector3(0, 0.25f, 0), (Vector2.right * suunta)*1.1f, 0.5f, groundLayer) && !CollisionCheck(transform.position + new Vector3(0, 0.25f, 0), (Vector2.right * suunta)*1.1f, 0.5f, groundLayer);
         IsDead = CollisionCheck(transform.position, Vector2.down, 1, DeathLayer);
         //Debug.Log("CanMove: "+ CanMove+ " Player: "+ playerIndex);
+        if(Physics2D.OverlapCircle(transform.position - new Vector3(0, 0.25f, 0), 0.2f, groundLayer)){
+            
+
+            GoToGrid();
+            transform.position = (Vector2) transform.position +Vector2.up;
+        }
         if (IsDead)
         {
             DIE();
@@ -388,7 +397,7 @@ public class PlayerScript : MonoBehaviour
     //Snaps the unit to grid
     void GoToGrid()
     {
-
+        Liikkuvuus = Vector2.zero;
         transform.position = new Vector3(Mathf.Round(transform.position.x), Mathf.Round(transform.position.y), 0);
         target = transform.position;
     }
